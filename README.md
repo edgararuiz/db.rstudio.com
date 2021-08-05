@@ -2,6 +2,13 @@
 
 This repo (and resulting website) is licensed as [CC BY-SA](LICENSE.md).
 
-This is a blogdown site. To make changes, you can add a new `.Rmd` under `/content`.
+```r
+library(convertsite)
 
-`blogdown::serve_site()` will automatically re-render any pages needed from `.Rmd` to `html` and will let you view a preview. 
+ov <- list()
+ov$project$`output-dir` <- "docs"
+
+convert_to_quarto(setup_override = ov)
+
+quarto::quarto_serve()
+```

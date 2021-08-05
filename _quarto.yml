@@ -1,6 +1,6 @@
 project:
-  type: site
   output-dir: docs
+  type: site
 site:
   title: Databases using R
   google-analytics: UA-20375833-3
@@ -19,7 +19,7 @@ site:
       - text: odbc
         href: r-packages/odbc.Rmd
       - text: DBI
-        href: .na.character
+        href: r-packages/DBI.Rmd
       - text: dplyr
         href: r-packages/dplyr.Rmd
       - text: pool
