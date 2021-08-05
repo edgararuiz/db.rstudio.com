@@ -3,6 +3,10 @@ project:
   type: site
 site:
   title: Databases using R
+  navbar:
+    search: true
+    background: light
+    type: light
   google-analytics: UA-20375833-3
   sidebar:
     contents:
