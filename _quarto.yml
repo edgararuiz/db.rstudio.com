@@ -1,0 +1,104 @@
+project:
+  type: site
+  output-dir: _site
+site:
+  title: Databases using R
+  google-analytics: UA-20375833-3
+  sidebar:
+    contents:
+    - section: Getting Started
+      contents:
+      - text: Overview
+        href: getting-started/overview.Rmd
+      - text: Connect to a Database
+        href: getting-started/connect-to-database.Rmd
+      - text: Database Queries
+        href: getting-started/database-queries.Rmd
+    - section: R Packages
+      contents:
+      - text: odbc
+        href: r-packages/odbc.Rmd
+      - text: DBI
+        href: .na.character
+      - text: dplyr
+        href: r-packages/dplyr.Rmd
+      - text: pool
+        href: r-packages/pool.Rmd
+    - section: Tooling
+      contents:
+      - text: Connections Pane
+        href: tooling/connections.Rmd
+      - text: Professional Drivers
+        href: tooling/pro-drivers.Rmd
+    - section: Best Practices
+      contents:
+      - text: Setting up ODBC Drivers
+        href: best-practices/drivers.Rmd
+      - text: Run Queries Safely
+        href: best-practices/run-queries-safely.Rmd
+      - text: Securing Deployed Content
+        href: best-practices/deployment.Rmd
+      - text: Securing Credentials
+        href: best-practices/managing-credentials.Rmd
+      - text: Making Scripts Portable
+        href: best-practices/portable-code.Rmd
+      - text: Creating Visualizations
+        href: best-practices/visualization.Rmd
+      - text: Selecting a database interface
+        href: best-practices/select-interface.Rmd
+      - text: Enterprise-ready dashboards
+        href: best-practices/dashboards.Rmd
+      - text: Schema selection
+        href: best-practices/schema.Rmd
+    - section: Databases
+      contents:
+      - text: MS SQL Server
+        href: databases/microsoft-sql-server.Rmd
+      - text: Oracle
+        href: databases/oracle.Rmd
+      - text: Teradata
+        href: databases/teradata.Rmd
+      - text: Hive
+        href: databases/hive.Rmd
+      - text: Impala
+        href: databases/impala.Rmd
+      - text: PostgreSQL
+        href: databases/postgresql.Rmd
+      - text: Redshift
+        href: databases/redshift.Rmd
+      - text: Salesforce
+        href: databases/salesforce.Rmd
+      - text: MySQL
+        href: databases/my-sql.Rmd
+      - text: MonetDB
+        href: databases/monetdb.Rmd
+      - text: SQLite
+        href: databases/sqlite.Rmd
+      - text: Big Query
+        href: databases/big-query.Rmd
+      - text: Athena
+        href: databases/athena.Rmd
+      - text: MongoDB
+        href: databases/mongodb.Rmd
+      - text: Netezza
+        href: databases/netezza.Rmd
+      - text: Cassandra
+        href: databases/cassandra.Rmd
+      - text: Snowflake
+        href: databases/snowflake.Rmd
+      - text: Other Databases
+        href: databases/other-databases.Rmd
+    - section: Advanced
+      contents:
+      - text: DBI Backend
+        href: advanced/backend.Rmd
+      - text: SQL Translation
+        href: advanced/translation.Rmd
+      - text: Connection Contract
+        href: advanced/contract.Rmd
+      - text: Connection Snippet
+        href: advanced/snippets.Rmd
+    - section: Other Resources
+      contents:
+      - text: Media
+        href: other-resources/media.Rmd
