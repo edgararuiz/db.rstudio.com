@@ -102,3 +102,7 @@ site:
       contents:
       - text: Media
         href: other-resources/media.Rmd
+format:
+  html:
+    toc: true
+    code-copy: true
