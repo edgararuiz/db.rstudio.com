@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-(Local Development)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Databases using R – MySQL</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto.js"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto-html.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  
+  <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-20375833-3', 'auto');
+
+  ga('send', {
+    hitType: 'pageview',
+    'anonymizeIp': true,
+  });
+  </script>
+</head>
+<body>
+<div id="quarto-search-results"></div>
+<header id="quarto-header" class="headroom fixed-top">
+<nav class="quarto-secondary-nav py-2 d-lg-none d-md-block " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <div class="container-fluid d-flex justify-content-between">
+    <h1 class="quarto-secondary-nav-title mb-0 fs-3 d-inline">MySQL</h1>
+    <button type="button" class="quarto-btn-toggle btn d-lg-none py-0 px-1 d-inline-block border-0 ">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</nav>
+</header>
+ <!-- /navbar/sidebar -->
+<div class="container-fluid quarto-container d-flex flex-column page-layout-article">
+<div class="row flex-fill" id="quarto-content">
+  <div id="quarto-sidebar" class="col col-12 col-lg-3 d-lg-flex px-0 pt-0 sidebar collapse sidebar-navigation">
+    <nav class="me-lg-auto py-2 docked  overflow-scroll">
+  <div class="px-3 pt-lg-2 mt-1 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">
+      Databases using R
+      </a> 
+    </div>
+  </div>
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-3 px-3">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#gettingstarted-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Getting Started</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="gettingstarted-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../getting-started/overview.html" class="">Overview</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/connect-to-database.html" class="">Connect to a Database</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/database-queries.html" class="">Database Queries</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#rpackages-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">R Packages</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="rpackages-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../r-packages/odbc.html" class="">odbc</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../.na.character" class="">DBI</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/dplyr.html" class="">dplyr</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/pool.html" class="">pool</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#tooling-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Tooling</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="tooling-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../tooling/connections.html" class="">Connections Pane</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../tooling/pro-drivers.html" class="">Professional Drivers</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#bestpractices-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Best Practices</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="bestpractices-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../best-practices/drivers.html" class="">Setting up ODBC Drivers</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/run-queries-safely.html" class="">Run Queries Safely</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/deployment.html" class="">Securing Deployed Content</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/managing-credentials.html" class="">Securing Credentials</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/portable-code.html" class="">Making Scripts Portable</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/visualization.html" class="">Creating Visualizations</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/select-interface.html" class="">Selecting a database interface</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/dashboards.html" class="">Enterprise-ready dashboards</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/schema.html" class="">Schema selection</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#databases-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Databases</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="databases-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../databases/microsoft-sql-server.html" class="">MS SQL Server</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/oracle.html" class="">Oracle</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/teradata.html" class="">Teradata</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/hive.html" class="">Hive</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/impala.html" class="">Impala</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/postgresql.html" class="">PostgreSQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/redshift.html" class="">Redshift</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/salesforce.html" class="">Salesforce</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/my-sql.html" class="active">MySQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/monetdb.html" class="">MonetDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/sqlite.html" class="">SQLite</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/big-query.html" class="">Big Query</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/athena.html" class="">Athena</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/mongodb.html" class="">MongoDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/netezza.html" class="">Netezza</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/cassandra.html" class="">Cassandra</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/snowflake.html" class="">Snowflake</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/other-databases.html" class="">Other Databases</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#advanced-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Advanced</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="advanced-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../advanced/backend.html" class="">DBI Backend</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/translation.html" class="">SQL Translation</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/contract.html" class="">Connection Contract</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/snippets.html" class="">Connection Snippet</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#otherresources-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Other Resources</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="otherresources-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../other-resources/media.html" class="">Media</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+  </div>
+  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+<main>
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">MySQL</h1>
+</header>
+<p>There are two options for connecting to a MySQL database:</p>
+<ul>
+<li>Using the <code>odbc</code> package with a database driver</li>
+<li>Using the <code>RMariaDB</code> package</li>
+</ul>
+<section id="using-the-odbc-package" class="level2">
+<h2 class="anchored" data-anchor-id="using-the-odbc-package">Using the <code>odbc</code> package</h2>
+<p>The <strong><code>odbc</code></strong> package, in combination with a driver, provides <code>DBI</code> support and an ODBC connection.</p>
+<section id="driver-options" class="level3">
+<h3 class="anchored" data-anchor-id="driver-options">Driver options</h3>
+<ul>
+<li><p><strong>MySQL</strong> - The official MySQL website provides a downloadable ODBC driver for MySQL: <a href="https://dev.mysql.com/downloads/connector/odbc/">MySQL Connector</a></p></li>
+<li><p><strong>MariaDB</strong> - MariaDB is an open source relational database built by the original developers of MySQL. MariaDB provides an ODBC connector that can be used as a drop-in replacement for a MySQL ODBC connector: <a href="https://downloads.mariadb.org/connector-odbc/+releases/">MariaDB Connector</a></p></li>
+<li><p><strong>RStudio Professional Drivers</strong> - RStudio Workbench (formerly RStudio Server Pro), RStudio Desktop Pro, RStudio Connect, or Shiny Server Pro users can download and use RStudio Professional Drivers at no additional charge. These drivers include an ODBC connector for MySQL databases. RStudio delivers standards-based, supported, professional ODBC drivers. Use RStudio Professional Drivers when you run R or Shiny with your production systems. See the <a href="https://www.rstudio.com/products/drivers/">RStudio Professional Drivers</a> for more information.</p></li>
+</ul>
+</section>
+<section id="connection-settings" class="level3">
+<h3 class="anchored" data-anchor-id="connection-settings">Connection Settings</h3>
+<p>There are 5 settings needed to make a connection:</p>
+<ul>
+<li><strong>Driver</strong> - See the <a href="../drivers">Drivers</a> section for setup information</li>
+<li><strong>Server</strong> - A network path to the database server</li>
+<li><strong>UID</strong> - User name used to access MySQL server</li>
+<li><strong>PWD</strong> - The password corresponding to the provided UID</li>
+<li><strong>Port</strong> - Should be set to <strong>3306</strong></li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(odbc<span class="sc">::</span><span class="fu">odbc</span>(),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Driver   =</span> <span class="st">"[your driver's name]"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Server   =</span> <span class="st">"[your server's path]"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">UID      =</span> rstudioapi<span class="sc">::</span><span class="fu">askForPassword</span>(<span class="st">"Database user"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">PWD      =</span> rstudioapi<span class="sc">::</span><span class="fu">askForPassword</span>(<span class="st">"Database password"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Port     =</span> <span class="dv">3306</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="using-the-rmariadb-package" class="level2">
+<h2 class="anchored" data-anchor-id="using-the-rmariadb-package">Using the <code>RMariaDB</code> package</h2>
+<p><code>RMariaDB</code> is a database interface and MariaDB driver for R. This version is aimed at full compliance with the <a href="../DBI">DBI</a> specification, as a replacement for the old <code>RMySQL</code> package. For more information, visit <code>RMariaDB</code>’s official site: <a href="https://rmariadb.r-dbi.org/">rmariadb.r-dbi.org</a></p>
+<p>To install from CRAN:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"RMariaDB"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>The development version from github<span class="sc">:</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To install the development version:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("remotes")</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"r-dbi/DBI"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"r-dbi/RMariaDB"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To connect:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to my-db as defined in ~/.my.cnf</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(), <span class="at">group =</span> <span class="st">"my-db"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!-- -->
+</section>
+</main>
+<div class="page-navigation page-navigation-docked">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</div>
+</div> <!-- /main column -->
+</div> <!-- /row -->
+</div> <!-- /container fluid -->
+
+
+</body></html>

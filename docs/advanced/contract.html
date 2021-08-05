@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-(Local Development)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Databases using R – Connections Contract</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto.js"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto-html.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  
+  <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-20375833-3', 'auto');
+
+  ga('send', {
+    hitType: 'pageview',
+    'anonymizeIp': true,
+  });
+  </script>
+</head>
+<body>
+<div id="quarto-search-results"></div>
+<header id="quarto-header" class="headroom fixed-top">
+<nav class="quarto-secondary-nav py-2 d-lg-none d-md-block " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <div class="container-fluid d-flex justify-content-between">
+    <h1 class="quarto-secondary-nav-title mb-0 fs-3 d-inline">Connections Contract</h1>
+    <button type="button" class="quarto-btn-toggle btn d-lg-none py-0 px-1 d-inline-block border-0 ">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</nav>
+</header>
+ <!-- /navbar/sidebar -->
+<div class="container-fluid quarto-container d-flex flex-column page-layout-article">
+<div class="row flex-fill" id="quarto-content">
+  <div id="quarto-sidebar" class="col col-12 col-lg-3 d-lg-flex px-0 pt-0 sidebar collapse sidebar-navigation">
+    <nav class="me-lg-auto py-2 docked  overflow-scroll">
+  <div class="px-3 pt-lg-2 mt-1 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">
+      Databases using R
+      </a> 
+    </div>
+  </div>
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-3 px-3">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#gettingstarted-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Getting Started</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="gettingstarted-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../getting-started/overview.html" class="">Overview</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/connect-to-database.html" class="">Connect to a Database</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/database-queries.html" class="">Database Queries</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#rpackages-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">R Packages</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="rpackages-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../r-packages/odbc.html" class="">odbc</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../.na.character" class="">DBI</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/dplyr.html" class="">dplyr</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/pool.html" class="">pool</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#tooling-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Tooling</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="tooling-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../tooling/connections.html" class="">Connections Pane</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../tooling/pro-drivers.html" class="">Professional Drivers</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#bestpractices-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Best Practices</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="bestpractices-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../best-practices/drivers.html" class="">Setting up ODBC Drivers</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/run-queries-safely.html" class="">Run Queries Safely</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/deployment.html" class="">Securing Deployed Content</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/managing-credentials.html" class="">Securing Credentials</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/portable-code.html" class="">Making Scripts Portable</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/visualization.html" class="">Creating Visualizations</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/select-interface.html" class="">Selecting a database interface</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/dashboards.html" class="">Enterprise-ready dashboards</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/schema.html" class="">Schema selection</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#databases-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Databases</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="databases-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../databases/microsoft-sql-server.html" class="">MS SQL Server</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/oracle.html" class="">Oracle</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/teradata.html" class="">Teradata</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/hive.html" class="">Hive</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/impala.html" class="">Impala</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/postgresql.html" class="">PostgreSQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/redshift.html" class="">Redshift</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/salesforce.html" class="">Salesforce</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/my-sql.html" class="">MySQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/monetdb.html" class="">MonetDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/sqlite.html" class="">SQLite</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/big-query.html" class="">Big Query</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/athena.html" class="">Athena</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/mongodb.html" class="">MongoDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/netezza.html" class="">Netezza</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/cassandra.html" class="">Cassandra</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/snowflake.html" class="">Snowflake</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/other-databases.html" class="">Other Databases</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#advanced-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Advanced</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="advanced-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../advanced/backend.html" class="">DBI Backend</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/translation.html" class="">SQL Translation</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/contract.html" class="active">Connection Contract</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/snippets.html" class="">Connection Snippet</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#otherresources-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Other Resources</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="otherresources-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../other-resources/media.html" class="">Media</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+  </div>
+  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+<main>
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Connections Contract</h1>
+</header>
+<p>The RStudio Connections Pane can display database-like connections from any R package which implements a connections contract.</p>
+<p>The Connections Pane acts like an observer; the R package notifies the observer when an event related to the connection occurs. In RStudio builds which support the Connections Pane, the <code>connectionObserver</code> option is populated with a list of three functions: <code>connectionOpened()</code>, <code>connectionUpdated()</code>, and <code>connectionClosed()</code>.</p>
+<section id="connection-opened" class="level2">
+<h2 class="anchored" data-anchor-id="connection-opened">Connection Opened</h2>
+<p>When a new connection is opened, your R package should inform the Connections Pane by calling <code>connectionOpened()</code>. For example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>observer <span class="ot">&lt;-</span> <span class="fu">getOption</span>(<span class="st">"connectionObserver"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(observer))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  observer<span class="sc">$</span><span class="fu">connectionOpened</span>(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="arguments" class="level3">
+<h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
+<p>The arguments to the <code>connectionOpened()</code> function are as follows:</p>
+<table class="table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 80%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>type</code></td>
+<td>Free-form text; the type of data connection (e.g.&nbsp;“SQL”).</td>
+</tr>
+<tr class="even">
+<td><code>displayName</code></td>
+<td>Free-form text; the name shown to the user in the Connections Pane.</td>
+</tr>
+<tr class="odd">
+<td><code>host</code></td>
+<td>The name of the server/host being connected to; optional.</td>
+</tr>
+<tr class="even">
+<td><code>icon</code></td>
+<td>The full path to a small, square PNG icon representing the connection; optional.</td>
+</tr>
+<tr class="odd">
+<td><code>connectCode</code></td>
+<td>A snippet of R code which can be used to open the connection again.</td>
+</tr>
+<tr class="even">
+<td><code>disconnect</code></td>
+<td>A function which can be used to close the connection.</td>
+</tr>
+<tr class="odd">
+<td><code>listObjectTypes</code></td>
+<td>A function which returns the hierarchy of object types returned by the connection, as a nested list; see Specifying Objects below for details.</td>
+</tr>
+<tr class="even">
+<td><code>listObjects</code></td>
+<td>A function which lists top-level objects in the database when called without arguments, or the objects inside some other object when invoked with an object specifier. The return value is a data frame with <code>name</code> and <code>type</code> columns.</td>
+</tr>
+<tr class="odd">
+<td><code>listColumns</code></td>
+<td>A function which lists the columns of a data object. The return value is a data frame with <code>name</code> and <code>type</code> columns.</td>
+</tr>
+<tr class="even">
+<td><code>previewObject</code></td>
+<td>A function accepting a row limit and an object specifier; it returns the given number of rows from the data object as a data frame.</td>
+</tr>
+<tr class="odd">
+<td><code>actions</code></td>
+<td>A named list of actions which can be performed on the connection. Each list entry should be a list with <code>icon</code> (path to an small, square PNG representing the action) and <code>callback</code> (function to perform when the action is invoked)</td>
+</tr>
+<tr class="even">
+<td><code>connectionObject</code></td>
+<td>The raw connection object.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="specifying-objects" class="level3">
+<h3 class="anchored" data-anchor-id="specifying-objects">Specifying Objects</h3>
+<section id="hierarchy" class="level4">
+<h4 class="anchored" data-anchor-id="hierarchy">Hierarchy</h4>
+<p>The <code>listObjectTypes()</code> function is invoked by RStudio to discover the hierarchy of objects supported by the connection. The return value should be a nested list, where each entry has a <code>contains</code> member that indicates what the object type contains, and optionally an <code>icon</code> member indicating the path to a small, square PNG representing the object type.</p>
+<p>The <code>contains</code> member is either a list of object types that the object contains, or the special value <code>"data"</code> if the object contains data.</p>
+<p>For example, if your database has schemas, and schemas can have tables and views, you might return a list like the following:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">schema =</span> <span class="fu">list</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">icon =</span> <span class="st">"path/to/schema.png"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">contains =</span> <span class="fu">list</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">table =</span> <span class="fu">list</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">contains =</span> <span class="st">"data"</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">view =</span> <span class="fu">list</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">contains =</span> <span class="st">"data"</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-1" class="level4">
+<h4 class="anchored" data-anchor-id="arguments-1">Arguments</h4>
+<p>The <code>listObjects()</code>, <code>listColumns()</code>, and <code>previewObject()</code> functions are invoked by RStudio as the user explores the objects and data in the connection. They are all invoked with an <em>object specifier</em>, which is a set of named arguments corresponding to the object types returned by <code>listObjectTypes()</code>.</p>
+<p>For instance, suppose the user opens a connection, expands the schema “foo”, and then previews the table “bar” inside that schema. RStudio will invoke the functions as follows:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">listObjects</span>()                  <span class="co"># returns all schema</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">listObjects</span>(<span class="at">schema =</span> <span class="st">"foo"</span>)    <span class="co"># returns tables and views in "foo"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">previewObject</span>(<span class="at">schema =</span> <span class="st">"foo"</span>,  <span class="co"># returns data in foo.bar</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">table  =</span> <span class="st">"bar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="persistence" class="level3">
+<h3 class="anchored" data-anchor-id="persistence">Persistence</h3>
+<p>When your R package informs RStudio that a connection has been opened via <code>connectionOpened()</code>, RStudio saves some of the connection’s metadata. Even after the connection is closed, RStudio shows users the connection along with the code (which is supplied in the <code>connectCode</code> argument to <code>connectionOpened</code> as described above) to re-open it. It’s therefore important to supply a <code>connectCode</code> string which will work with few prerequisites.</p>
+</section>
+</section>
+<section id="connection-updated" class="level2">
+<h2 class="anchored" data-anchor-id="connection-updated">Connection Updated</h2>
+<p>If the list of objects in your data source changes while the connection is open, your R package can tell RStudio to refresh the Connections Pane to show the new information. This is done by invoking the <code>connectionUpdated()</code> method as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>observer <span class="ot">&lt;-</span> <span class="fu">getOption</span>(<span class="st">"connectionObserver"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(observer))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  observer<span class="sc">$</span><span class="fu">connectionUpdated</span>(type, host)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>where <code>type</code> and <code>host</code> match the type and host parameters given when the connection was opened.</p>
+</section>
+<section id="connection-closed" class="level2">
+<h2 class="anchored" data-anchor-id="connection-closed">Connection Closed</h2>
+<p>When the user closes the connection, your R package should tell RStudio to update the pane. This done by invoking the <code>connectionClosed()</code> method, which works identically to <code>connectionUpdated()</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>observer <span class="ot">&lt;-</span> <span class="fu">getOption</span>(<span class="st">"connectionObserver"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(observer))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  observer<span class="sc">$</span><span class="fu">connectionClosed</span>(type, host)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="examples" class="level2">
+<h2 class="anchored" data-anchor-id="examples">Examples</h2>
+<p>There are currently two packages which implement the connections contract. You may use these as examples:</p>
+<ul>
+<li><a href="https://github.com/rstats-db/odbc/blob/5acc55350e0664002d6281f4659c089911fbd7c3/R/Viewer.R">odbc</a></li>
+<li><a href="https://github.com/rstudio/sparklyr/blob/4b7098628fcd14c1cc562a38940b2e67bf2fb63a/R/connection_viewer.R">sparklyr</a></li>
+</ul>
+<!-- -->
+</section>
+</main>
+<div class="page-navigation page-navigation-docked">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</div>
+</div> <!-- /main column -->
+</div> <!-- /row -->
+</div> <!-- /container fluid -->
+
+
+</body></html>

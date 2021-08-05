@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-(Local Development)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Databases using R – Database Queries With R</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto.js"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto-html.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  
+  <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-20375833-3', 'auto');
+
+  ga('send', {
+    hitType: 'pageview',
+    'anonymizeIp': true,
+  });
+  </script>
+</head>
+<body>
+<div id="quarto-search-results"></div>
+<header id="quarto-header" class="headroom fixed-top">
+<nav class="quarto-secondary-nav py-2 d-lg-none d-md-block " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <div class="container-fluid d-flex justify-content-between">
+    <h1 class="quarto-secondary-nav-title mb-0 fs-3 d-inline">Database Queries With R</h1>
+    <button type="button" class="quarto-btn-toggle btn d-lg-none py-0 px-1 d-inline-block border-0 ">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</nav>
+</header>
+ <!-- /navbar/sidebar -->
+<div class="container-fluid quarto-container d-flex flex-column page-layout-article">
+<div class="row flex-fill" id="quarto-content">
+  <div id="quarto-sidebar" class="col col-12 col-lg-3 d-lg-flex px-0 pt-0 sidebar collapse sidebar-navigation">
+    <nav class="me-lg-auto py-2 docked  overflow-scroll">
+  <div class="px-3 pt-lg-2 mt-1 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">
+      Databases using R
+      </a> 
+    </div>
+  </div>
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-3 px-3">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#gettingstarted-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Getting Started</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="gettingstarted-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../getting-started/overview.html" class="">Overview</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/connect-to-database.html" class="">Connect to a Database</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/database-queries.html" class="active">Database Queries</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#rpackages-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">R Packages</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="rpackages-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../r-packages/odbc.html" class="">odbc</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../.na.character" class="">DBI</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/dplyr.html" class="">dplyr</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/pool.html" class="">pool</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#tooling-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Tooling</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="tooling-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../tooling/connections.html" class="">Connections Pane</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../tooling/pro-drivers.html" class="">Professional Drivers</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#bestpractices-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Best Practices</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="bestpractices-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../best-practices/drivers.html" class="">Setting up ODBC Drivers</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/run-queries-safely.html" class="">Run Queries Safely</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/deployment.html" class="">Securing Deployed Content</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/managing-credentials.html" class="">Securing Credentials</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/portable-code.html" class="">Making Scripts Portable</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/visualization.html" class="">Creating Visualizations</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/select-interface.html" class="">Selecting a database interface</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/dashboards.html" class="">Enterprise-ready dashboards</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/schema.html" class="">Schema selection</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#databases-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Databases</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="databases-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../databases/microsoft-sql-server.html" class="">MS SQL Server</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/oracle.html" class="">Oracle</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/teradata.html" class="">Teradata</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/hive.html" class="">Hive</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/impala.html" class="">Impala</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/postgresql.html" class="">PostgreSQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/redshift.html" class="">Redshift</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/salesforce.html" class="">Salesforce</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/my-sql.html" class="">MySQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/monetdb.html" class="">MonetDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/sqlite.html" class="">SQLite</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/big-query.html" class="">Big Query</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/athena.html" class="">Athena</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/mongodb.html" class="">MongoDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/netezza.html" class="">Netezza</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/cassandra.html" class="">Cassandra</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/snowflake.html" class="">Snowflake</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/other-databases.html" class="">Other Databases</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#advanced-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Advanced</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="advanced-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../advanced/backend.html" class="">DBI Backend</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/translation.html" class="">SQL Translation</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/contract.html" class="">Connection Contract</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/snippets.html" class="">Connection Snippet</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#otherresources-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Other Resources</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="otherresources-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../other-resources/media.html" class="">Media</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+  </div>
+  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+<main>
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Database Queries With R</h1>
+</header>
+<p>There are many ways to query data with R. This article shows you three of the most common ways:</p>
+<ol type="1">
+<li>Using <code>DBI</code></li>
+<li>Using <code>dplyr</code> syntax</li>
+<li>Using R Notebooks</li>
+</ol>
+<section id="background" class="level3">
+<h3 class="anchored" data-anchor-id="background">Background</h3>
+<p>Several recent package improvements make it easier for you to use databases with R. The query examples below demonstrate some of the capabilities of these R packages.</p>
+<ul>
+<li><a href="../dbi">DBI</a>. The <code>DBI</code> specification has gone through many <a href="https://www.r-consortium.org/blog/2017/05/15/improving-dbi-a-retrospect">recent improvements</a>. When working with databases, you should always use packages that are <code>DBI</code>-compliant.</li>
+<li><a href="../dplyr">dplyr</a> &amp; <code>dbplyr</code>. The <code>dplyr</code> package now has a generalized SQL backend for talking to databases, and the new <code>dbplyr</code> package translates R code into database-specific variants. As of this writing, SQL variants are supported for the following databases: Oracle, Microsoft SQL Server, PostgreSQL, Amazon Redshift, Apache Hive, and Apache Impala. More will follow over time.</li>
+<li><a href="../odbc">odbc</a>. The <code>odbc</code> R package provides a standard way for you to connect to any database as long as you have an ODBC driver installed. The <code>odbc</code> R package is <code>DBI</code>-compliant, and is recommended for ODBC connections.</li>
+</ul>
+<p>RStudio also made recent improvements to its products so they work better with databases.</p>
+<ul>
+<li><a href="../connections">RStudio IDE (v1.1 and newer)</a>. With the latest versions of the RStudio IDE, you can connect to, explore, and view data in a variety of databases. The IDE has a wizard for setting up new connections, and a tab for exploring established connections. These new features are extensible and will work with any R package that has a <a href="../advanced/contract/">connections contract</a>.</li>
+<li><a href="../rstudio/pro-drivers/">RStudio Professional Drivers</a>. If you are using RStudio Desktop Pro or other RStudio professional products, you can download RStudio Professional Drivers for no additional cost on the same machine where these products are installed. The examples below use the Oracle ODBC driver. If you are using open-source tools, you can bring your own driver or use community packages – many open-source drivers and community packages exist for connecting to a variety of databases.</li>
+</ul>
+<p>Using databases with R is a broad subject and there is more work to be done. An earlier blog post discussed <a href="https://blog.rstudio.com/2017/06/27/dbplyr-1-1-0/">our vision</a>.</p>
+</section>
+<section id="example-query-bank-data-in-an-oracle-database" class="level3">
+<h3 class="anchored" data-anchor-id="example-query-bank-data-in-an-oracle-database">Example: Query bank data in an Oracle database</h3>
+<p>In this example, we will query bank data in an Oracle database. We connect to the database by using the <code>DBI</code> and <code>odbc</code> packages. This specific connection requires a database driver and a data source name (DSN) that have both been configured by the system administrator. Your connection might use another method.</p>
+<pre><code>library(DBI)
+library(dplyr)
+library(dbplyr)
+library(odbc)
+con &lt;- dbConnect(odbc::odbc(), "Oracle DB")</code></pre>
+</section>
+<section id="query-using-dbi" class="level3">
+<h3 class="anchored" data-anchor-id="query-using-dbi">1. Query using <code>DBI</code></h3>
+<p>You can query your data with <code>DBI</code> by using the <code>dbGetQuery()</code> function. Simply paste your SQL code into the R function as a quoted string. This method is sometimes referred to as <em>pass through SQL code</em>, and is probably the simplest way to query your data. Care should be used to escape your quotes as needed. For example, <code>'yes'</code> is written as <code>\'yes\'</code>.</p>
+<pre><code>dbGetQuery(con,'
+  select "month_idx", "year", "month",
+  sum(case when "term_deposit" = \'yes\' then 1.0 else 0.0 end) as subscribe,
+  count(*) as total
+  from "bank"
+  group by "month_idx", "year", "month"
+')</code></pre>
+</section>
+<section id="query-using-dplyr-syntax" class="level3">
+<h3 class="anchored" data-anchor-id="query-using-dplyr-syntax">2. Query using dplyr syntax</h3>
+<p>You can write your code in <code>dplyr</code> syntax, and <code>dplyr</code> will translate your code into SQL. There are several benefits to writing queries in <code>dplyr</code> syntax: you can keep the same consistent language both for R objects and database tables, no knowledge of SQL or the specific SQL variant is required, and you can take advantage of the fact that <code>dplyr</code> uses <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">lazy evaluation</a>. <code>dplyr</code> syntax is easy to read, but you can always inspect the SQL translation with the <code>show_query()</code> function.</p>
+<pre><code>q1 &lt;- tbl(con, "bank") %&gt;%
+  group_by(month_idx, year, month) %&gt;%
+  summarise(
+    subscribe = sum(ifelse(term_deposit == "yes", 1, 0)),
+    total = n())
+show_query(q1)</code></pre>
+<p><br></p>
+<pre><code>&lt;SQL&gt;
+SELECT "month_idx", "year", "month", SUM(CASE WHEN ("term_deposit" = 'yes') THEN (1.0) ELSE (0.0) END) AS "subscribe", COUNT(*) AS "total"
+FROM ("bank") 
+GROUP BY "month_idx", "year", "month"</code></pre>
+</section>
+<section id="query-using-an-r-notebooks" class="level3">
+<h3 class="anchored" data-anchor-id="query-using-an-r-notebooks">3. Query using an R Notebooks</h3>
+<p>Did you know that you can run SQL code in an <a href="http://rmarkdown.rstudio.com/r_notebooks.html">R Notebook</a> code chunk? To use SQL, open an <a href="http://rmarkdown.rstudio.com/r_notebooks.html">R Notebook</a> in the RStudio IDE under the <strong>File &gt; New File</strong> menu. Start a new code chunk with <code>{sql}</code>, and specify your connection with the <code>connection=con</code> code chunk option. If you want to send the query output to an R dataframe, use <code>output.var = "mydataframe"</code> in the code chunk options. When you specify <code>output.var</code>, you will be able to use the output in subsequent R code chunks. In this example, we use the output in <code>ggplot2</code>.</p>
+<pre><code>```{sql, connection=con, output.var = "mydataframe"}
+SELECT "month_idx", "year", "month", SUM(CASE WHEN ("term_deposit" = 'yes') THEN (1.0) ELSE (0.0) END) AS "subscribe",
+COUNT(*) AS "total"
+FROM ("bank") 
+GROUP BY "month_idx", "year", "month"
+```</code></pre>
+<p><br></p>
+<pre><code>```{r}
+library(ggplot2)
+ggplot(mydataframe, aes(total, subscribe, color = year)) +
+  geom_point() +
+  xlab("Total contacts") +
+  ylab("Term Deposit Subscriptions") +
+  ggtitle("Contact volume")
+```</code></pre>
+<p><img src="../images/bankggplot.png" class="img-fluid"></p>
+<p>The benefits to using SQL in a code chunk are that you can paste your SQL code without any modification. For example, you do not have to escape quotes. If you are using the proverbial <em>spaghetti code</em> that is hundreds of lines long, then a SQL code chunk might be a good option. Another benefit is that the SQL code in a code chunk is highlighted, making it very easy to read. For more information on SQL engines, see this page on <a href="http://rmarkdown.rstudio.com/authoring_knitr_engines.html">knitr language engines</a>.</p>
+</section>
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary">Summary</h3>
+<p>There is no single best way to query data with R. You have many methods to chose from, and each has its advantages. Here are some of the advantages using the methods described in this article.</p>
+<table class="table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 65%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Advantages</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><ol type="1">
+<li>DBI::dbGetQuery</li>
+</ol></td>
+<td><ul>
+<li>Fewer dependencies required</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td><ol start="2" type="1">
+<li>dplyr syntax</li>
+</ol></td>
+<td><ul>
+<li>Use the same syntax for R and database objects</li>
+<li>No knowledge of SQL required</li>
+<li>Code is standard across SQL variants</li>
+<li>Lazy evaluation</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td><ol start="3" type="1">
+<li>R Notebook SQL engine</li>
+</ol></td>
+<td><ul>
+<li>Copy and paste SQL – no formatting required</li>
+<li>SQL syntax is highlighted</li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+<p><em>You can download the R Notebook for these examples <a href="http://rpubs.com/nwstephens/318586">here</a>.</em></p>
+<!-- -->
+</section>
+</main>
+<div class="page-navigation page-navigation-docked">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</div>
+</div> <!-- /main column -->
+</div> <!-- /row -->
+</div> <!-- /container fluid -->
+
+
+</body></html>

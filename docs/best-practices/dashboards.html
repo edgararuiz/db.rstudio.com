@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-(Local Development)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Databases using R – Enterprise-ready dashboards</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto.js"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto-html.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  
+  <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-20375833-3', 'auto');
+
+  ga('send', {
+    hitType: 'pageview',
+    'anonymizeIp': true,
+  });
+  </script>
+</head>
+<body>
+<div id="quarto-search-results"></div>
+<header id="quarto-header" class="headroom fixed-top">
+<nav class="quarto-secondary-nav py-2 d-lg-none d-md-block " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <div class="container-fluid d-flex justify-content-between">
+    <h1 class="quarto-secondary-nav-title mb-0 fs-3 d-inline">Enterprise-ready dashboards</h1>
+    <button type="button" class="quarto-btn-toggle btn d-lg-none py-0 px-1 d-inline-block border-0 ">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</nav>
+</header>
+ <!-- /navbar/sidebar -->
+<div class="container-fluid quarto-container d-flex flex-column page-layout-article">
+<div class="row flex-fill" id="quarto-content">
+  <div id="quarto-sidebar" class="col col-12 col-lg-3 d-lg-flex px-0 pt-0 sidebar collapse sidebar-navigation">
+    <nav class="me-lg-auto py-2 docked  overflow-scroll">
+  <div class="px-3 pt-lg-2 mt-1 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">
+      Databases using R
+      </a> 
+    </div>
+  </div>
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-3 px-3">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#gettingstarted-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Getting Started</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="gettingstarted-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../getting-started/overview.html" class="">Overview</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/connect-to-database.html" class="">Connect to a Database</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/database-queries.html" class="">Database Queries</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#rpackages-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">R Packages</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="rpackages-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../r-packages/odbc.html" class="">odbc</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../.na.character" class="">DBI</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/dplyr.html" class="">dplyr</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/pool.html" class="">pool</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#tooling-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Tooling</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="tooling-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../tooling/connections.html" class="">Connections Pane</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../tooling/pro-drivers.html" class="">Professional Drivers</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#bestpractices-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Best Practices</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="bestpractices-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../best-practices/drivers.html" class="">Setting up ODBC Drivers</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/run-queries-safely.html" class="">Run Queries Safely</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/deployment.html" class="">Securing Deployed Content</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/managing-credentials.html" class="">Securing Credentials</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/portable-code.html" class="">Making Scripts Portable</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/visualization.html" class="">Creating Visualizations</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/select-interface.html" class="">Selecting a database interface</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/dashboards.html" class="active">Enterprise-ready dashboards</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/schema.html" class="">Schema selection</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#databases-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Databases</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="databases-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../databases/microsoft-sql-server.html" class="">MS SQL Server</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/oracle.html" class="">Oracle</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/teradata.html" class="">Teradata</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/hive.html" class="">Hive</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/impala.html" class="">Impala</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/postgresql.html" class="">PostgreSQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/redshift.html" class="">Redshift</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/salesforce.html" class="">Salesforce</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/my-sql.html" class="">MySQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/monetdb.html" class="">MonetDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/sqlite.html" class="">SQLite</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/big-query.html" class="">Big Query</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/athena.html" class="">Athena</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/mongodb.html" class="">MongoDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/netezza.html" class="">Netezza</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/cassandra.html" class="">Cassandra</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/snowflake.html" class="">Snowflake</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/other-databases.html" class="">Other Databases</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#advanced-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Advanced</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="advanced-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../advanced/backend.html" class="">DBI Backend</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/translation.html" class="">SQL Translation</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/contract.html" class="">Connection Contract</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/snippets.html" class="">Connection Snippet</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#otherresources-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Other Resources</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="otherresources-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../other-resources/media.html" class="">Media</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+  </div>
+  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+<main>
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Enterprise-ready dashboards</h1>
+</header>
+<p><img src="../best-practices/dashboards/main.png" class="img-fluid"></p>
+<section id="design-principles" class="level2">
+<h2 class="anchored" data-anchor-id="design-principles">Design principles</h2>
+<p>A few principles to keep in mind when developing an enterprise level dashboard:</p>
+<ul>
+<li><p><strong>Push as much of the calculations of the dashboard back to the database</strong> - The time it takes for a dashboard to load, and respond, will become the most important aspect of its design. For dashboards, the expected time to load and response is a few seconds.</p></li>
+<li><p><strong>Give the end-user with “train of thought” paths</strong> - These paths are commonly provided by way of a drill down from within the dashboard. These paths allows the end-user to quickly answer questions they currently have.</p></li>
+<li><p><strong>Make data driven inputs</strong> - It is easy to “hard code” the values that will be available in an input, such as a drop down. This may become a problem later on if the possible values change over time. An ancillary principle is to always use a look up table to obtain the list of values, when available. It is not ideal to obtain a list of possible values by grouping and summarizing a large column.</p></li>
+<li><p><strong>Secure the database credentials</strong> - Most often, a service account is made available for reports and dashboards that have access to a database. In that case, it is important to know how to properly safeguard the credentials of the service account.</p></li>
+</ul>
+</section>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<div>
+<a href="https://edgarruiz.shinyapps.io/db-dashboard/">
+<figure class="figure">
+<img src="../best-practices/dashboards/dashboard.png" align="center" height="300" width="600" class="figure-img">
+<figcaption class="figure-caption">
+Click to see the live dashboard
+</figcaption>
+</figure>
+</a><p><a href="https://edgarruiz.shinyapps.io/db-dashboard/"></a></p>
+</div>
+<p><br></p>
+<p>A working example of the dashboard that will be used as the base of this article is available on GitHub. The project repository contains the code and all the supporting files:</p>
+<ul>
+<li><p>Visit the repository: https://github.com/sol-eng/db-dashboard</p></li>
+<li><p>Download a zipped file with all of the files from the repository: https://github.com/sol-eng/db-dashboard/archive/master.zip</p></li>
+</ul>
+<p>A live version of the app can be found in shinyapps.io: <a href="https://edgarruiz.shinyapps.io/db-dashboard/">DB Dashboard</a></p>
+</section>
+<section id="use-shinydashboard" class="level2">
+<h2 class="anchored" data-anchor-id="use-shinydashboard">Use <code>shinydashboard</code></h2>
+<p>The <a href="https://rstudio.github.io/shinydashboard/">shinydashboard</a> package has three important advantages:</p>
+<ol type="1">
+<li><p><strong>Provides an out-of-the-box framework to create dashboards in Shiny.</strong> This saves a lot of time, because the developer does not have to create the dashboard features manually using “base” Shiny.</p></li>
+<li><p><strong>Has a dashboard-firendly tag structure.</strong> This allows the developer to get started quickly. Inside the <code>dashboardPage()</code>tag, the <code>dashboardHeader()</code>, <code>dashboardSidebar()</code> and <code>dashboardBody()</code> can be added to easily lay out a new dashboard.</p></li>
+<li><p><strong>It is mobile-ready.</strong> Without any additional code, the dashboard layout will adapt to a smaller screen automatically.</p></li>
+</ol>
+<p>Another option for creating dashboard with R is <a href="https://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a>. It will support all but one of the features discussed in this article: dynamic tabs, which are the basis of the technique used in the example to drive the drill throughs.</p>
+<section id="quick-example" class="level3">
+<h3 class="anchored" data-anchor-id="quick-example">Quick example</h3>
+<p>If you are new to <code>shinydashboard</code>, please feel free to copy and paste the following code to see a very simple dashboard in your environment:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shinydashboard)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dashboardHeader</span>(<span class="at">title =</span> <span class="st">"Quick Example"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dashboardSidebar</span>(<span class="fu">textInput</span>(<span class="st">"text"</span>, <span class="st">"Text"</span>)),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dashboardBody</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">valueBox</span>(<span class="dv">100</span>, <span class="st">"Basic example"</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tableOutput</span>(<span class="st">"mtcars"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>mtcars <span class="ot">&lt;-</span> <span class="fu">renderTable</span>(<span class="fu">head</span>(mtcars))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="connection-strings-and-credentials" class="level2">
+<h2 class="anchored" data-anchor-id="connection-strings-and-credentials">Connection strings and credentials</h2>
+<p>In many cases, the app is developed against one database, and run in production against a different database. This can present a challenge if the connection string is “hard coded”.</p>
+<p>This site provides a couple of articles to help with addressing credentials and portability of code:</p>
+<ul>
+<li><a href="../best-practices/deployment/">Securing Deployed Content</a></li>
+<li><a href="../best-practices/portable-code/">Making Scripts Portable</a></li>
+</ul>
+</section>
+<section id="populate-shiny-inputs-using-purrr" class="level2">
+<h2 class="anchored" data-anchor-id="populate-shiny-inputs-using-purrr">Populate Shiny inputs using <code>purrr</code></h2>
+<p>The usual preference is for the values displayed in a user input, such as drop down, to be “human readable”. The actual value of the selection should be a unique identifier so that dependent queries return the correct information.</p>
+<p>This section examines two cases and ways to format the list of options to be in a format that Shiny can use.</p>
+<section id="drop-down-populated-from-database" class="level3">
+<h3 class="anchored" data-anchor-id="drop-down-populated-from-database">Drop down populated from database</h3>
+<p>Ideally, a look up table is available in the database so that the query is simple to execute.</p>
+<p>To separate the keys from the values, the <code>map()</code> function in the <code>purrr</code> package can be used. In the example below, all of the records in the airlines table are collected, and a list of names is created, <code>map()</code> is then used to insert the carrier codes into each name node.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>airline_list <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"airlines"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  collect  <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>name) <span class="sc">%&gt;%</span>    <span class="co"># Field that will be used for the labels</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span>.<span class="sc">$</span>carrier)      <span class="co"># Field that will be used for keys</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>selectInput()</code> drop-down menu is able to read the resulting <code>airline_list</code> list variable.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dashboardSidebar</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">selectInput</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">inputId =</span> <span class="st">"airline"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> <span class="st">"Airline:"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">choices =</span> airline_list,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">selected =</span> <span class="st">"DL"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">selectize =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="list-populated-from-a-vector" class="level3">
+<h3 class="anchored" data-anchor-id="list-populated-from-a-vector">List populated from a vector</h3>
+<p>There are times when the possible values are static, and small enough, so that they all fit in a vector.</p>
+<p>A common example is the month name. A given table store the month number, and that number is what needs to be used as the filter value The values presented to the end-user will be the month name, but when a selection is made, the month number is what will be passed to Shiny.</p>
+<p>For that, a function called <code>set_names()</code> can be used to add the caption that will be displayed in the input in a way that is “Shiny friendly”</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>month_list <span class="ot">&lt;-</span> <span class="fu">as.list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(month.name)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>month_list<span class="sc">$</span><span class="st">`</span><span class="at">All Year</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="dv">99</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>selectInput()</code> list menu is able to read the resulting <code>month_list</code> list variable.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selectInput</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">inputId =</span> <span class="st">"month"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Month:"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices =</span> month_list,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">selected =</span> <span class="dv">99</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">13</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">selectize =</span> <span class="cn">FALSE</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="create-a-base-query-using-dplyr" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-base-query-using-dplyr">Create a base query using <code>dplyr</code></h2>
+<p>In most cases, all of the plots and tables in a dashboard share a common base query. For example, they will all show the same month’s data. Using <code>dplyr</code> to build the base query has the following advantages:</p>
+<ul>
+<li>Simplifies the code because it prevents the repetition of filters and joins.</li>
+<li><code>dplyr</code> “laziness” allows for the base query to be built with out it being executed until it is used to get the data for a given plot or table.</li>
+<li>Abstracts the translation of the SQL syntax. The dashboard will work with no, or minimal, changes if the database vendor changes.</li>
+<li>The modular nature of this approach allows to just add a few simple, and easy to understand, <code>dplyr</code> steps to get the slice or aggregation of the data needed to be displayed on the plot or table.</li>
+</ul>
+<p>Because the base query will more likely have to be assembled based on the current input selection, then a Shiny <code>reactive()</code> function is necessary to be used instead of a regular <code>function()</code>. This is because the <code>input$...</code> variables can only be evaluated inside a Shiny reactive function.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  base_flights <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    res <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(carrier <span class="sc">==</span> input<span class="sc">$</span>airline) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">left_join</span>(airlines, <span class="at">by =</span> <span class="st">"carrier"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">airline =</span> name) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">left_join</span>(airports, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"origin"</span> <span class="ot">=</span> <span class="st">"faa"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">origin_name =</span> name) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>lat, <span class="sc">-</span>lon, <span class="sc">-</span>alt, <span class="sc">-</span>tz, <span class="sc">-</span>dst) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">left_join</span>(airports, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"dest"</span> <span class="ot">=</span> <span class="st">"faa"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">dest_name =</span> name)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (input<span class="sc">$</span>month <span class="sc">!=</span> <span class="dv">99</span>) res <span class="ot">&lt;-</span> <span class="fu">filter</span>(res, month <span class="sc">==</span> input<span class="sc">$</span>month)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    res</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, the Shiny <code>output</code> function starts with the base query (<code>base_flights</code>), and finishing <code>dplyr</code> steps, in the form of verbs, are appended, and piped directly to the plotting or display function. It is important to note that before sending the resulting data set to Shiny, either a <code>collect()</code> or <code>pull()</code> function needs to be used.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>per_day <span class="ot">&lt;-</span> <span class="fu">renderValueBox</span>({</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">base_flights</span>() <span class="sc">%&gt;%</span>      <span class="co">#------ Base query </span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(day, month) <span class="sc">%&gt;%</span>  <span class="co">#-- Finishing steps   </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tally</span>() <span class="sc">%&gt;%</span>                  </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">avg =</span> <span class="fu">mean</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pull</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">round</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">prettyNum</span>(<span class="at">big.mark =</span> <span class="st">","</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">valueBox</span>(             <span class="co"># -- Pipe right into a Value Box</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">"Average Flights per day"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">color =</span> <span class="st">"blue"</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="using-r2d3-for-interactivity-and-drill-down" class="level2">
+<h2 class="anchored" data-anchor-id="using-r2d3-for-interactivity-and-drill-down">Using <code>r2d3</code> for interactivity and drill-down</h2>
+<p>A “drill-down” is a great way to provide the end-user with “train of thought” paths.</p>
+<p>In a Shiny app or dashboard, there’s the R object that contains the plot or table needs a way to pass to Shiny the value what was that was clicked on. The best way to do this, is by using Shiny’s JavaScript inside a given plot. This activates a reactive function inside the app.</p>
+<p>The visualization packages called <a href="http://www.htmlwidgets.org/">htmlwidgets</a> are widely used. They are a set of packages are wrappers on top of D3/JavaScript plots. There may be times when the available <code>htmlwidgets</code> package falls short, either by not integrating with Shiny, or by not providing the exact visualization that is needed for the dashboard.</p>
+<p>This article, the package <a href="https://rstudio.github.io/r2d3/index.html">r2d3</a> will be used. This package allows us to custom build D3 visualizations from the ground up, for maximum flexibility and best integration with Shiny. A more in-depth article on how to integrate Shiny with <code>r2d3</code> is available here: <a href="https://rstudio.github.io/r2d3/articles/shiny.html">Using r2d3 with Shiny</a>.</p>
+<section id="two-ready-to-use-r2d3-plots" class="level3">
+<h3 class="anchored" data-anchor-id="two-ready-to-use-r2d3-plots">Two ready-to-use <code>r2d3</code> plots</h3>
+<p>The example dashboard used in this article contains two D3 scripts that are “Shiny-ready”. One is a column plot and the other a bar plot. They have been developed in a way that you can easily copy the entire script and use it in your own dashboard.</p>
+<ul>
+<li><a href="https://github.com/sol-eng/db-dashboard/blob/master/col_plot.js">col_plot.js</a> - Requires a <code>data.frame</code> or <code>tibble</code> with the following names and type of data:
+<ul>
+<li><code>x</code> - Expects the category’s value. For example, if it represents a month, then it would contain the month’s number.</li>
+<li><code>y</code> - Expects the value of the height of the column.</li>
+<li><code>label</code> - Expects the category’s caption. It is what will be displayed to the end-user. For example, if it represents a month, then it would contain the month’s name.</li>
+</ul></li>
+<li><a href="https://github.com/sol-eng/db-dashboard/blob/master/bar_plot.js">bar_plot.js</a> - - Requires a <code>data.frame</code> or <code>tibble</code> with the following names and type of data:
+<ul>
+<li><code>x</code> - Expects the value of the width of the bar.</li>
+<li><code>y</code> - Expects the category’s value. For example, if it represents a month, then it would contain the month’s number.</li>
+<li><code>label</code> - Expects the category’s caption. It is what will be displayed to the end-user. For example, if it represents a month, then it would contain the month’s name.</li>
+</ul></li>
+</ul>
+<p>Thanks to <code>r2d3</code>, the plots can easily be rendered. This code snippet shows how simple is to combine the technique of using a base query, and then pipe the finishing transformations directly into the <code>r2d3()</code> function.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>top_airports <span class="ot">&lt;-</span> <span class="fu">renderD3</span>({</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The following code runs inside the database</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">base_flights</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(dest, dest_name) <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tally</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">collect</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrange</span>(dest_name) <span class="sc">%&gt;%</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">dest_name =</span> <span class="fu">str_sub</span>(dest_name, <span class="dv">1</span>, <span class="dv">30</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> dest,              <span class="co"># Make sure to rename the </span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> n,                 <span class="co"># variables to what the </span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> dest_name      <span class="co">#  D3 script expects</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">r2d3</span>(<span class="st">"bar_plot.js"</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="handling-a-click-event-from-the-plot" class="level2">
+<h2 class="anchored" data-anchor-id="handling-a-click-event-from-the-plot">Handling a click event from the plot</h2>
+<p>The ideal outcome of a click event is that it activates a Shiny <code>input</code>. This allows the app to execute a reactive function when the click, or any other event recognized by the plot, is triggered.</p>
+<p>The D3 plots, available in the example’s GitHub repository, already contain the necessary Shiny JS code to trigger a reactive function when clicked on:</p>
+<ul>
+<li><p><strong>col_plot.js</strong> - Creates a <code>input$col_clicked</code> inside the Shiny app.</p></li>
+<li><p><strong>bar_plot.js</strong> - Creates a <code>input$bar_clicked</code> inside the Shiny app.</p></li>
+</ul>
+<p>Inside the app, include an <code>observeEvent()</code> function that will capture the value returned by the D3 plot:</p>
+<pre><code>  observeEvent(input$bar_clicked, {
+  # ----- Function's code --------
+  })</code></pre>
+<p><strong>Troubleshooting tip</strong> - If the nothing happens when a bar is clicked on, please confirm that the installed <code>shiny</code> package version is 1.1.0 or above.</p>
+</section>
+<section id="create-the-drill-down-report" class="level2">
+<h2 class="anchored" data-anchor-id="create-the-drill-down-report">Create the drill-down report</h2>
+<section id="using-appendtab-to-create-the-drill-down-report" class="level3">
+<h3 class="anchored" data-anchor-id="using-appendtab-to-create-the-drill-down-report">Using <code>appendTab()</code> to create the drill-down report</h3>
+<p>The plan is to display a new drill-down report every time the end user clicks on a bar. To prevent pulling the same data unnecessarily, the code will be “smart” enough to simply switch the focus to an existing tab if the same bar has been clicked on before. This switch also prevent unnecessary trips to the database.</p>
+<p>The new, and really cool, <code>appendTab()</code> function is used to dynamically create a new Shiny tab with a data table from the <a href="https://rstudio.github.io/DT/">DT</a> package that contains the first 100 rows of the selection. A simple vector, called <code>tab_list</code>, is used to track all existing detail tabs. The <code>updateTabsetPanel()</code> function is used to switch to the newly or previously created tab.</p>
+<p>The <code>observeEvent()</code> function is the one that “catches” the event executed by the D3 code. It monitors the <code>bar_clicked</code> Shiny input.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>bar_clicked, {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    airport <span class="ot">&lt;-</span> input<span class="sc">$</span>bar_clicked</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    month <span class="ot">&lt;-</span> input<span class="sc">$</span>month</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    tab_title <span class="ot">&lt;-</span> <span class="fu">paste</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      input<span class="sc">$</span>airline, <span class="st">"-"</span>, airport,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (month <span class="sc">!=</span> <span class="dv">99</span>) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(<span class="st">"-"</span>, month.name[<span class="fu">as.integer</span>(month)])</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>(tab_title <span class="sc">%in%</span> tab_list)) {</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">appendTab</span>(</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">inputId =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tabPanel</span>(</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>          tab_title,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>          DT<span class="sc">::</span><span class="fu">renderDataTable</span>(</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>            <span class="co"># This function return a data.frame with</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># the top 100 records of that airport</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>            <span class="fu">get_details</span>(<span class="at">airport =</span> airport) </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>      tab_list <span class="ot">&lt;&lt;-</span> <span class="fu">c</span>(tab_list, tab_title)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">updateTabsetPanel</span>(session, <span class="st">"tabs"</span>, <span class="at">selected =</span> tab_title)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="remove-all-tabs-using-removetab-and-purrr" class="level3">
+<h3 class="anchored" data-anchor-id="remove-all-tabs-using-removetab-and-purrr">Remove all tabs using <code>removeTab()</code> and <code>purrr</code></h3>
+<p>Creating new tabs dynamically can clutter the dashboard. So a simple <code>actionLink()</code> button can be added to the <code>dashboardSidebar()</code> in order to remove all tabs except the main dashboard tab.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code runs in ui</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dashboardSidebar</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">actionLink</span>(<span class="st">"remove"</span>, <span class="st">"Remove detail tabs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>observeEvent()</code> function is used once more to catch when the link is clicked. The <code>walk()</code> command from <code>purrr</code> is then used to iterate through each tab title in the <code>tab_list</code> vector and proceeds to execute the Shiny <code>removeTab()</code> command for each name. After that, the tab list variable is reset. Because of environment scoping, make sure to use double less than ( <code>&lt;&lt;-</code> ) when resetting the variable, so it knows to reset the variable defined outside of the <code>observeEvent()</code> function.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This code runs in server</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(input<span class="sc">$</span>remove,{</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use purrr's walk command to cycle through each</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># panel tabs and remove them</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    tab_list <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">walk</span>(<span class="sc">~</span><span class="fu">removeTab</span>(<span class="st">"tabs"</span>, .x))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    tab_list <span class="ot">&lt;&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="full-example" class="level2">
+<h2 class="anchored" data-anchor-id="full-example">Full example</h2>
+<p>There are two versions of the app available in the GitHub repository:</p>
+<ul>
+<li><p><a href="https://github.com/sol-eng/db-dashboard/blob/master/local/local_app.R">local_app.R</a> - Example that works without a database connection.</p></li>
+<li><p><a href="https://github.com/sol-eng/db-dashboard/blob/master/database/db_app.R">db_app.R</a> - Full example, it shows how it connects to a database.</p></li>
+</ul>
+<!-- -->
+</section>
+</main>
+<div class="page-navigation page-navigation-docked">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</div>
+</div> <!-- /main column -->
+</div> <!-- /row -->
+</div> <!-- /container fluid -->
+
+
+</body></html>

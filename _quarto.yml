@@ -1,6 +1,6 @@
 project:
   type: site
-  output-dir: _site
+  output-dir: docs
 site:
   title: Databases using R
   google-analytics: UA-20375833-3

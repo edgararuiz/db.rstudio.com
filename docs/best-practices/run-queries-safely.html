@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-(Local Development)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Databases using R – Run Queries Safely</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto.js"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto-html.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  
+  <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-20375833-3', 'auto');
+
+  ga('send', {
+    hitType: 'pageview',
+    'anonymizeIp': true,
+  });
+  </script>
+</head>
+<body>
+<div id="quarto-search-results"></div>
+<header id="quarto-header" class="headroom fixed-top">
+<nav class="quarto-secondary-nav py-2 d-lg-none d-md-block " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <div class="container-fluid d-flex justify-content-between">
+    <h1 class="quarto-secondary-nav-title mb-0 fs-3 d-inline">Run Queries Safely</h1>
+    <button type="button" class="quarto-btn-toggle btn d-lg-none py-0 px-1 d-inline-block border-0 ">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</nav>
+</header>
+ <!-- /navbar/sidebar -->
+<div class="container-fluid quarto-container d-flex flex-column page-layout-article">
+<div class="row flex-fill" id="quarto-content">
+  <div id="quarto-sidebar" class="col col-12 col-lg-3 d-lg-flex px-0 pt-0 sidebar collapse sidebar-navigation">
+    <nav class="me-lg-auto py-2 docked  overflow-scroll">
+  <div class="px-3 pt-lg-2 mt-1 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">
+      Databases using R
+      </a> 
+    </div>
+  </div>
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-3 px-3">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#gettingstarted-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Getting Started</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="gettingstarted-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../getting-started/overview.html" class="">Overview</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/connect-to-database.html" class="">Connect to a Database</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/database-queries.html" class="">Database Queries</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#rpackages-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">R Packages</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="rpackages-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../r-packages/odbc.html" class="">odbc</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../.na.character" class="">DBI</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/dplyr.html" class="">dplyr</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/pool.html" class="">pool</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#tooling-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Tooling</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="tooling-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../tooling/connections.html" class="">Connections Pane</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../tooling/pro-drivers.html" class="">Professional Drivers</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#bestpractices-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Best Practices</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="bestpractices-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../best-practices/drivers.html" class="">Setting up ODBC Drivers</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/run-queries-safely.html" class="active">Run Queries Safely</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/deployment.html" class="">Securing Deployed Content</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/managing-credentials.html" class="">Securing Credentials</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/portable-code.html" class="">Making Scripts Portable</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/visualization.html" class="">Creating Visualizations</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/select-interface.html" class="">Selecting a database interface</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/dashboards.html" class="">Enterprise-ready dashboards</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/schema.html" class="">Schema selection</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#databases-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Databases</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="databases-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../databases/microsoft-sql-server.html" class="">MS SQL Server</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/oracle.html" class="">Oracle</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/teradata.html" class="">Teradata</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/hive.html" class="">Hive</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/impala.html" class="">Impala</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/postgresql.html" class="">PostgreSQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/redshift.html" class="">Redshift</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/salesforce.html" class="">Salesforce</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/my-sql.html" class="">MySQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/monetdb.html" class="">MonetDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/sqlite.html" class="">SQLite</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/big-query.html" class="">Big Query</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/athena.html" class="">Athena</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/mongodb.html" class="">MongoDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/netezza.html" class="">Netezza</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/cassandra.html" class="">Cassandra</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/snowflake.html" class="">Snowflake</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/other-databases.html" class="">Other Databases</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#advanced-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Advanced</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="advanced-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../advanced/backend.html" class="">DBI Backend</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/translation.html" class="">SQL Translation</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/contract.html" class="">Connection Contract</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/snippets.html" class="">Connection Snippet</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#otherresources-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Other Resources</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="otherresources-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../other-resources/media.html" class="">Media</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+  </div>
+  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+<main>
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Run Queries Safely</h1>
+</header>
+<p>We will review four options to run SQL commands safely using the <a href="../dbi/">DBI</a> package:</p>
+<ul>
+<li><a href="#parameterized-queries">Parameterised queries</a></li>
+<li><a href="#using-glue_sql">Using <code>glue_sql</code></a></li>
+<li><a href="#interpolation-by-hand">Interpolation by “hand”</a></li>
+<li><a href="#manual-escaping">Manual escaping</a></li>
+</ul>
+<section id="sql-injection-attack" class="level2">
+<h2 class="anchored" data-anchor-id="sql-injection-attack">SQL Injection Attack</h2>
+<p>The <code>dbGetQuery()</code> command allows us to write queries and retrieve the results. The query has to be written using the SQL syntax that matches to the database type.</p>
+<p>For example, here is a database that contains the <em>airports</em> data from NYC Flights data:</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="st">"SELECT * FROM airports LIMIT 5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  faa                          name      lat       lon  alt tz dst
+1 04G             Lansdowne Airport 41.13047 -80.61958 1044 -5   A
+2 06A Moton Field Municipal Airport 32.46057 -85.68003  264 -6   A
+3 06C           Schaumburg Regional 41.98934 -88.10124  801 -6   A
+4 06N               Randall Airport 41.43191 -74.39156  523 -5   A
+5 09J         Jekyll Island Airport 31.07447 -81.42778   11 -5   A</code></pre>
+</div>
+</div>
+<p>Often you need to write queries that depend on user input. For example, you might want to allow the user to pick an airport to focus their analysis on. To do this, it’s tempting to create the SQL string yourself by pasting strings together:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>airport_code <span class="ot">&lt;-</span> <span class="st">"GPT"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="fu">paste0</span>(<span class="st">"SELECT * FROM airports WHERE faa = '"</span>, airport_code ,<span class="st">"'"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  faa            name      lat       lon alt tz dst
+1 GPT Gulfport-Biloxi 30.40728 -89.07011  28 -6   A</code></pre>
+</div>
+</div>
+<p>Here <code>airport_code</code> is created in the script, in real-life it might be an input typed into a Shiny app.</p>
+<p>The problem with creating SQL strings with <code>paste0()</code> is that a careful attacker can create inputs that return more rows than you want:</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>airport_code <span class="ot">&lt;-</span> <span class="st">"GPT' or faa = 'MSY"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="fu">paste0</span>(<span class="st">"SELECT * FROM airports WHERE faa = '"</span>, airport_code ,<span class="st">"'"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  faa                             name      lat       lon alt tz dst
+1 GPT                  Gulfport-Biloxi 30.40728 -89.07011  28 -6   A
+2 MSY Louis Armstrong New Orleans Intl 29.99339 -90.25803   4 -6   A</code></pre>
+</div>
+</div>
+<p>Or take <strong>destructive actions on your database</strong>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>airport_code <span class="ot">&lt;-</span> <span class="st">"GPT'; DROP TABLE 'airports"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, <span class="fu">paste0</span>(<span class="st">"SELECT * FROM airports WHERE faa = '"</span>, airport_code ,<span class="st">"'"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is called <strong>SQL injection attack</strong>.</p>
+<p>There are three ways to avoid this problem:</p>
+<ul>
+<li>Use a parameterised query with <code>dbSendQuery()</code> and <code>dbBind()</code></li>
+<li>Use the <code>sqlInterpolate()</code> function to safely combine a SQL string with data</li>
+<li>Manually escape the inputs using <code>dbQuoteString()</code></li>
+</ul>
+<p>These are ordered by the level of safety they provide: if you can use <code>dbSendQuery()</code> and <code>dbBind()</code>, you should.</p>
+</section>
+<section id="parameterized-queries" class="level2">
+<h2 class="anchored" data-anchor-id="parameterized-queries">Parameterized queries</h2>
+<p>All modern database engines provide a way to write <strong>parameterised queries</strong>, queries that contain some placeholder that allows you to re-run the query multiple times with different inputs. This protects you from SQL injection attacks, and as an added benefit, the database can often optimise the query so it runs faster.</p>
+<p>Using a parameterised query with DBI requires three steps.</p>
+<ol type="1">
+<li>You create a query containing a <code>?</code> placeholder and send it to the database with <code>dbSendQuery()</code>:</li>
+</ol>
+<p>::: {.cell indent=” “}</p>
+<pre><code>```{.r .cell-code}
+airport &lt;- dbSendQuery(con, "SELECT * FROM airports WHERE faa = ?")
+```</code></pre>
+<p>:::</p>
+<ol start="2" type="1">
+<li>Use <code>dbBind()</code> to execute the query with specific values, then <code>dbFetch()</code> to get the results:</li>
+</ol>
+<p>::: {.cell indent=” “}</p>
+<pre><code>```{.r .cell-code}
+dbBind(airport, list("GPT"))
+dbFetch(airport)
+```
+
+::: {.cell-output-stdout}
+```
+  faa            name      lat       lon alt tz dst
+1 GPT Gulfport-Biloxi 30.40728 -89.07011  28 -6   A
+```
+:::</code></pre>
+<p>:::</p>
+<ol start="3" type="1">
+<li>Once you’re done using the parameterised query, clean it up by calling <code>dbClearResult()</code></li>
+</ol>
+<p>::: {.cell indent=” “}</p>
+<pre><code>```{.r .cell-code}
+dbClearResult(airport)
+```</code></pre>
+<p>:::</p>
+</section>
+<section id="using-glue_sql" class="level2">
+<h2 class="anchored" data-anchor-id="using-glue_sql">Using <code>glue_sql()</code></h2>
+<p>Parameterized queries are generally the safest and most efficient way to pass user defined values in a query, however not every database driver supports them. The function <code>glue_sql()</code>, part of the the <code>glue</code> package, is able to handle the SQL quoting and variable placement.</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>airport_sql <span class="ot">&lt;-</span> <span class="fu">glue_sql</span>(<span class="st">"SELECT * FROM airports WHERE faa = ?"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>airport <span class="ot">&lt;-</span> <span class="fu">dbSendQuery</span>(con, airport_sql)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dbBind</span>(airport, <span class="fu">list</span>(<span class="st">"GPT"</span>))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dbFetch</span>(airport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  faa            name      lat       lon alt tz dst
+1 GPT Gulfport-Biloxi 30.40728 -89.07011  28 -6   A</code></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbClearResult</span>(airport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you place an astersk <code>*</code> at the end of a glue expression the values will be collapsed with commas. This is useful for the SQL IN Operator for instance.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>airport_sql <span class="ot">&lt;-</span> <span class="fu">glue_sql</span>(<span class="st">"SELECT * FROM airports WHERE faa IN ({airports*})"</span>, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">airports =</span> <span class="fu">c</span>(<span class="st">"GPT"</span>, <span class="st">"MSY"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">.con =</span> con</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                        )</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>airport <span class="ot">&lt;-</span> <span class="fu">dbSendQuery</span>(con, airport_sql)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dbFetch</span>(airport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  faa                             name      lat       lon alt tz dst
+1 GPT                  Gulfport-Biloxi 30.40728 -89.07011  28 -6   A
+2 MSY Louis Armstrong New Orleans Intl 29.99339 -90.25803   4 -6   A</code></pre>
+</div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbClearResult</span>(airport)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="interpolation-by-hand" class="level2">
+<h2 class="anchored" data-anchor-id="interpolation-by-hand">Interpolation by “hand”</h2>
+<p>While all modern databases support parameterised queries, they are not always supported in individual database drivers. If you find that <code>dbBind()</code> doesn’t work with the database connector you are using, you can fall back on <code>sqlInterpolate()</code>, which will safely do the interpolation for you.</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>airport_code <span class="ot">&lt;-</span> <span class="st">"GPT"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>sql <span class="ot">&lt;-</span> <span class="fu">sqlInterpolate</span>(con, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * FROM airports  where faa = ?code"</span>, </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">code =</span> airport_code</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>&lt;SQL&gt; SELECT * FROM airports  where faa = 'GPT'</code></pre>
+</div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, sql)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>  faa            name      lat       lon alt tz dst
+1 GPT Gulfport-Biloxi 30.40728 -89.07011  28 -6   A</code></pre>
+</div>
+</div>
+<p>The query returns no records if we try the same SQL injection attack:</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>airport_code <span class="ot">&lt;-</span> <span class="st">"GPT' or faa = 'MSY"</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>sql <span class="ot">&lt;-</span> <span class="fu">sqlInterpolate</span>(con, </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * FROM airports  where faa = ?code"</span>, </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">code =</span> airport_code</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>&lt;SQL&gt; SELECT * FROM airports  where faa = 'GPT'' or faa = ''MSY'</code></pre>
+</div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, sql)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] faa  name lat  lon  alt  tz   dst 
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+</div>
+</div>
+</section>
+<section id="manual-escaping" class="level2">
+<h2 class="anchored" data-anchor-id="manual-escaping">Manual escaping</h2>
+<p>Sometimes you can’t create the SQL you want using either of the previous methods. If you’re in this unhappy situation, first make absolutely sure that you haven’t missed an existing DBI helper function that does what you need. You need to be extremely careful when doing the escaping yourself, and it’s better to rely on existing code that multiple people have carefully reviewed.</p>
+<p>However, if there’s no other way around it, you can use <code>dbQuoteString()</code> to add the quotes for you. This method will automatically take care of dangerous characters in the same way as <code>sqlInterpolate()</code> (<em>better</em>) and <code>dbBind()</code> (<em>best</em>).</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>airport_code <span class="ot">&lt;-</span> <span class="st">"GPT' or faa = 'MSY"</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sql <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"SELECT * FROM airports WHERE faa = "</span>, <span class="fu">dbQuoteString</span>(con, airport_code))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "SELECT * FROM airports WHERE faa = 'GPT'' or faa = ''MSY'"</code></pre>
+</div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(con, sql)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] faa  name lat  lon  alt  tz   dst 
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+</div>
+</div>
+<p>You may also need <code>dbQuoteIdentifier()</code> if you are creating tables or relying on user input to choose which column to filter on.</p>
+<!-- -->
+</section>
+</main>
+<div class="page-navigation page-navigation-docked">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</div>
+</div> <!-- /main column -->
+</div> <!-- /row -->
+</div> <!-- /container fluid -->
+
+
+</body></html>

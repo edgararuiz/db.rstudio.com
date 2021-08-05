@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-(Local Development)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Databases using R – Media</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto.js"></script>
+  <script src="../site_libs/quarto-html/popper.min.js"></script>
+  <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="../site_libs/quarto-html/clipboard.min.js"></script>
+  <script src="../site_libs/quarto-html/anchor.min.js"></script>
+  <script src="../site_libs/quarto-html/quarto-html.js"></script>
+  <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  
+  <script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-20375833-3', 'auto');
+
+  ga('send', {
+    hitType: 'pageview',
+    'anonymizeIp': true,
+  });
+  </script>
+</head>
+<body>
+<div id="quarto-search-results"></div>
+<header id="quarto-header" class="headroom fixed-top">
+<nav class="quarto-secondary-nav py-2 d-lg-none d-md-block " data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <div class="container-fluid d-flex justify-content-between">
+    <h1 class="quarto-secondary-nav-title mb-0 fs-3 d-inline">Media</h1>
+    <button type="button" class="quarto-btn-toggle btn d-lg-none py-0 px-1 d-inline-block border-0 ">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</nav>
+</header>
+ <!-- /navbar/sidebar -->
+<div class="container-fluid quarto-container d-flex flex-column page-layout-article">
+<div class="row flex-fill" id="quarto-content">
+  <div id="quarto-sidebar" class="col col-12 col-lg-3 d-lg-flex px-0 pt-0 sidebar collapse sidebar-navigation">
+    <nav class="me-lg-auto py-2 docked  overflow-scroll">
+  <div class="px-3 pt-lg-2 mt-1 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">
+      Databases using R
+      </a> 
+    </div>
+  </div>
+  <div class="sidebar-menu-container"> 
+  <ul class="list-unstyled mt-3 px-3">
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#gettingstarted-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Getting Started</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="gettingstarted-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../getting-started/overview.html" class="">Overview</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/connect-to-database.html" class="">Connect to a Database</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../getting-started/database-queries.html" class="">Database Queries</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#rpackages-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">R Packages</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="rpackages-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../r-packages/odbc.html" class="">odbc</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../.na.character" class="">DBI</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/dplyr.html" class="">dplyr</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../r-packages/pool.html" class="">pool</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#tooling-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Tooling</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="tooling-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../tooling/connections.html" class="">Connections Pane</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../tooling/pro-drivers.html" class="">Professional Drivers</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#bestpractices-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Best Practices</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="bestpractices-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../best-practices/drivers.html" class="">Setting up ODBC Drivers</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/run-queries-safely.html" class="">Run Queries Safely</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/deployment.html" class="">Securing Deployed Content</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/managing-credentials.html" class="">Securing Credentials</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/portable-code.html" class="">Making Scripts Portable</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/visualization.html" class="">Creating Visualizations</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/select-interface.html" class="">Selecting a database interface</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/dashboards.html" class="">Enterprise-ready dashboards</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../best-practices/schema.html" class="">Schema selection</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#databases-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Databases</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="databases-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../databases/microsoft-sql-server.html" class="">MS SQL Server</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/oracle.html" class="">Oracle</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/teradata.html" class="">Teradata</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/hive.html" class="">Hive</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/impala.html" class="">Impala</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/postgresql.html" class="">PostgreSQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/redshift.html" class="">Redshift</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/salesforce.html" class="">Salesforce</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/my-sql.html" class="">MySQL</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/monetdb.html" class="">MonetDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/sqlite.html" class="">SQLite</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/big-query.html" class="">Big Query</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/athena.html" class="">Athena</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/mongodb.html" class="">MongoDB</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/netezza.html" class="">Netezza</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/cassandra.html" class="">Cassandra</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/snowflake.html" class="">Snowflake</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../databases/other-databases.html" class="">Other Databases</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#advanced-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Advanced</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="advanced-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../advanced/backend.html" class="">DBI Backend</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/translation.html" class="">SQL Translation</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/contract.html" class="">Connection Contract</a>
+</li>
+          <li class="sidebar-item">
+  <a href="../advanced/snippets.html" class="">Connection Snippet</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+      <ul class="list-unstyled sidebar-section depth1">
+    <li class="">
+        <div class="me-auto ">
+            <a class="sidebar-section-item d-inline-flex text-start w-100 " data-bs-toggle="collapse" data-bs-target="#otherresources-collapse" aria-expanded="true">
+              <div class="me-auto  sidebar-section-item">Other Resources</div>
+            <div><i class="bi bi-chevron-right ms-2 "></i></div>
+            </a>
+        </div>
+      <div class="collapse  show" id="otherresources-collapse">
+        <ul class="list-unstyled sidebar-item-contents">
+          <li class="sidebar-item">
+  <a href="../other-resources/media.html" class="active">Media</a>
+</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+  </ul>
+  </div>
+</nav>
+  </div>
+  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+<main>
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Media</h1>
+</header>
+<section id="modeling-in-databases-with-r" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-in-databases-with-r">Modeling in Databases with R</h2>
+<section id="edgar-ruiz---rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="edgar-ruiz---rstudio">Edgar Ruiz - RStudio</h3>
+<p><em>Event: July 2019 Webinar</em></p>
+<p>
+<a href="https://resources.rstudio.com/webinars/modeling-in-databases-with-r?wvideo=5m5mrigclx"><img src="https://embedwistia-a.akamaihd.net/deliveries/5e1da9347665233d7ea7fe9d9848a6cf.jpg?image_play_button_size=2x&amp;image_crop_resized=960x540&amp;image_play_button=1&amp;image_play_button_color=71a5d4e0" width="400" height="225" style="width: 400px; height: 225px;"></a>
+</p>
+<p>
+<a href="https://resources.rstudio.com/webinars/modeling-in-databases-with-r?wvideo=5m5mrigclx">Modeling in Databases with R</a>
+</p>
+</section>
+</section>
+<section id="databases-using-r-the-latest" class="level2">
+<h2 class="anchored" data-anchor-id="databases-using-r-the-latest">Databases using R: The latest</h2>
+<section id="edgar-ruiz---rstudio-1" class="level3">
+<h3 class="anchored" data-anchor-id="edgar-ruiz---rstudio-1">Edgar Ruiz - RStudio</h3>
+<p><em>Event: January 2019 RStudio Conference 2019</em></p>
+<p>
+<a href="https://resources.rstudio.com/rstudio-conf-2019/databases-using-r-the-latest?wvideo=lylyope6ph"><img src="https://embedwistia-a.akamaihd.net/deliveries/8b959ef3c1fdec79c208d26f6ecea600419f3907.jpg?image_play_button_size=2x&amp;image_crop_resized=960x540&amp;image_play_button=1&amp;image_play_button_color=4287c7e0" width="400" height="225" style="width: 400px; height: 225px;"></a>
+</p>
+<p>
+<a href="https://resources.rstudio.com/rstudio-conf-2019/databases-using-r-the-latest?wvideo=lylyope6ph">Databases using R The latest - Edgar Ruiz</a>
+</p>
+</section>
+</section>
+<section id="best-practices-for-working-with-r-databases" class="level2">
+<h2 class="anchored" data-anchor-id="best-practices-for-working-with-r-databases">Best Practices for working with R &amp; Databases</h2>
+<section id="edgar-ruiz---rstudio-2" class="level3">
+<h3 class="anchored" data-anchor-id="edgar-ruiz---rstudio-2">Edgar Ruiz - RStudio</h3>
+<p><em>Event: March 2018 Webinar</em></p>
+<p>
+<a href="https://resources.rstudio.com/webinars/best-practices-for-working-with-databases-march-2018-edgar-ruiz?wvideo=vffitvywy6"><img src="https://embedwistia-a.akamaihd.net/deliveries/29b87d8ee942cd844acf0481b9376c52ecda91a2.jpg?image_play_button_size=2x&amp;image_crop_resized=960x540&amp;image_play_button=1&amp;image_play_button_color=71a5d4e0" width="400" height="225" style="width: 400px; height: 225px;"></a>
+</p>
+<p>
+<a href="https://resources.rstudio.com/webinars/best-practices-for-working-with-databases-march-2018-edgar-ruiz?wvideo=vffitvywy6">Best practices for working with databases (March 2018)- Edgar Ruiz</a>
+</p>
+</section>
+</section>
+<section id="connecting-to-open-source-databases" class="level2">
+<h2 class="anchored" data-anchor-id="connecting-to-open-source-databases">Connecting to open source databases</h2>
+<section id="kirill-muller" class="level3">
+<h3 class="anchored" data-anchor-id="kirill-muller">Kirill Muller</h3>
+<p><em>Event: rstudio::conf2018</em></p>
+<p>
+<a href="https://resources.rstudio.com/rstudio-conf-2018/connecting-to-open-source-databases-kirill-muller?wvideo=yf1vdwugk5"><img src="https://embedwistia-a.akamaihd.net/deliveries/6cc6be1f7e21a6ecd6640c0068ecd86a94c235d0.jpg?image_play_button_size=2x&amp;image_crop_resized=960x540&amp;image_play_button=1&amp;image_play_button_color=4287c7e0" width="400" height="225" style="width: 400px; height: 225px;"></a>
+</p>
+<p>
+<a href="https://resources.rstudio.com/rstudio-conf-2018/connecting-to-open-source-databases-kirill-muller?wvideo=yf1vdwugk5">Connecting to open source databases – Kirill Muller</a>
+</p>
+</section>
+</section>
+<section id="best-practices-for-working-with-databases" class="level2">
+<h2 class="anchored" data-anchor-id="best-practices-for-working-with-databases">Best practices for working with databases</h2>
+<section id="by-edgar-ruiz---rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="by-edgar-ruiz---rstudio">by Edgar Ruiz - RStudio</h3>
+<p><em>Event: rstudio::conf2018</em></p>
+<p>
+<a href="https://resources.rstudio.com/rstudio-conf-2018/best-practices-for-working-with-databases-edgar-ruiz?wvideo=a4ps6daf64"><img src="https://embedwistia-a.akamaihd.net/deliveries/63eeb1098ce60b58117d8ce172b0adf1650d64c7.jpg?image_play_button_size=2x&amp;image_crop_resized=960x540&amp;image_play_button=1&amp;image_play_button_color=4287c7e0" width="400" height="225" style="width: 400px; height: 225px;"></a>
+</p>
+<p>
+<a href="https://resources.rstudio.com/rstudio-conf-2018/best-practices-for-working-with-databases-edgar-ruiz?wvideo=a4ps6daf64">Best practices for working with databases – Edgar Ruiz</a>
+</p>
+</section>
+</section>
+<section id="odbc---a-modern-database-interface" class="level2">
+<h2 class="anchored" data-anchor-id="odbc---a-modern-database-interface">odbc - A modern database interface</h2>
+<section id="by-jim-hester---rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="by-jim-hester---rstudio">by Jim Hester - RStudio</h3>
+<p><em>Event: useR!2017</em></p>
+<div>
+<iframe src="https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference/odbc-A-modern-database-interface/player" width="500" height="400" allowfullscreen="" frameborder="0">
+</iframe>
+
+</div>
+</section>
+</section>
+<section id="interacting-with-databases-from-shiny" class="level2">
+<h2 class="anchored" data-anchor-id="interacting-with-databases-from-shiny">Interacting with databases from Shiny</h2>
+<section id="by-barbara-borges-ribeiro---rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="by-barbara-borges-ribeiro---rstudio">by Barbara Borges Ribeiro - RStudio</h3>
+<p><em>Event: useR!2017</em></p>
+<div>
+<p><iframe src="https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference/Interacting-with-databases-from-Shiny/player" width="500" height="400" allowfullscreen="" frameborder="0"></iframe></p>
+</div>
+</section>
+</section>
+<section id="implyr-a-dplyr-backend-for-apache-impala" class="level2">
+<h2 class="anchored" data-anchor-id="implyr-a-dplyr-backend-for-apache-impala">implyr: A dplyr backend for Apache Impala</h2>
+<section id="by-ian-cook---cloudera" class="level3">
+<h3 class="anchored" data-anchor-id="by-ian-cook---cloudera">by Ian Cook - Cloudera</h3>
+<p><em>Event: useR!2017</em></p>
+<div>
+<p><iframe src="https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference/implyr-A-dplyr-Backend-for-a-Apache-Impala/player" width="500" height="400" allowfullscreen="" frameborder="0"></iframe></p>
+</div>
+</section>
+</section>
+<section id="improving-dbi" class="level2">
+<h2 class="anchored" data-anchor-id="improving-dbi">Improving DBI</h2>
+<section id="by-kirill-müller" class="level3">
+<h3 class="anchored" data-anchor-id="by-kirill-müller">by Kirill Müller</h3>
+<p><em>Event: useR!2017</em></p>
+<div>
+<iframe src="https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference/Improving-DBI/player" width="500" height="400" allowfullscreen="" frameborder="0">
+</iframe>
+</div>
+<!-- -->
+</section>
+</section>
+</main>
+<div class="page-navigation page-navigation-docked">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</div>
+</div> <!-- /main column -->
+</div> <!-- /row -->
+</div> <!-- /container fluid -->
+
+
+</body></html>
