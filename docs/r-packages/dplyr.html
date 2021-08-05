@@ -358,11 +358,26 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting started</a></li>
+<li><a href="#connecting-to-the-database" class="nav-link" data-scroll-target="#connecting-to-the-database">Connecting to the database</a></li>
+<li><a href="#generating-queries" class="nav-link" data-scroll-target="#generating-queries">Generating queries</a></li>
+<li><a href="#creating-your-own-database" class="nav-link" data-scroll-target="#creating-your-own-database">Creating your own database</a>
+<ul class="collapse">
+<li><a href="#mysqlmariadb" class="nav-link" data-scroll-target="#mysqlmariadb">MySQL/MariaDB</a></li>
+<li><a href="#postgresql" class="nav-link" data-scroll-target="#postgresql">PostgreSQL</a></li>
+<li><a href="#bigquery" class="nav-link" data-scroll-target="#bigquery">BigQuery</a></li>
+</ul></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Using dplyr with databases</h1>
 </header>
+
 <p>As well as working with local in-memory data stored in data frames, <code>dplyr</code> also works with remote on-disk data stored in databases. This is particularly useful in two scenarios:</p>
 <ul>
 <li><p>Your data is already in a database.</p></li>

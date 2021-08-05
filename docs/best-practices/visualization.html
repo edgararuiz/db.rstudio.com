@@ -170,7 +170,7 @@
   <a href="../r-packages/odbc.html" class="">odbc</a>
 </li>
           <li class="sidebar-item">
-  <a href="../.na.character" class="">DBI</a>
+  <a href="../r-packages/DBI.html" class="">DBI</a>
 </li>
           <li class="sidebar-item">
   <a href="../r-packages/dplyr.html" class="">dplyr</a>
@@ -358,11 +358,38 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#bar-plot" class="nav-link active" data-scroll-target="#bar-plot">Bar plot</a>
+<ul class="collapse">
+<li><a href="#data-transformation" class="nav-link" data-scroll-target="#data-transformation">Data transformation</a></li>
+<li><a href="#plotting-results-in-r" class="nav-link" data-scroll-target="#plotting-results-in-r">Plotting results in R</a></li>
+<li><a href="#transform-and-plot" class="nav-link" data-scroll-target="#transform-and-plot">Transform and plot</a></li>
+</ul></li>
+<li><a href="#histogram" class="nav-link" data-scroll-target="#histogram">Histogram</a>
+<ul class="collapse">
+<li><a href="#calculations" class="nav-link" data-scroll-target="#calculations">Calculations</a></li>
+<li><a href="#using-a-helper-function" class="nav-link" data-scroll-target="#using-a-helper-function">Using a helper function</a></li>
+<li><a href="#data-transformation-1" class="nav-link" data-scroll-target="#data-transformation-1">Data transformation</a></li>
+<li><a href="#plotting-results-in-r-1" class="nav-link" data-scroll-target="#plotting-results-in-r-1">Plotting results in R</a></li>
+<li><a href="#transform-and-plot-1" class="nav-link" data-scroll-target="#transform-and-plot-1">Transform and plot</a></li>
+</ul></li>
+<li><a href="#raster-plot" class="nav-link" data-scroll-target="#raster-plot">Raster Plot</a>
+<ul class="collapse">
+<li><a href="#data-transformation-2" class="nav-link" data-scroll-target="#data-transformation-2">Data transformation</a></li>
+<li><a href="#plotting-results-in-r-2" class="nav-link" data-scroll-target="#plotting-results-in-r-2">Plotting results in R</a></li>
+<li><a href="#considerations" class="nav-link" data-scroll-target="#considerations">Considerations</a></li>
+</ul></li>
+<li><a href="#use-an-r-package" class="nav-link" data-scroll-target="#use-an-r-package">Use an R package</a></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Creating Visualizations</h1>
 </header>
+
 <p>Typically, a function that produces a plot in R performs the data crunching and the graphical rendering. For example, <code>geom_histogram()</code> calculates the bin sizes and the count per bin, and then it renders the plot. Plotting functions usually require that 100% of the data be passed to them. This is a problem when working with a database. The best approach is to move the data transformation to the database, and then use a graphing function to render the results.</p>
 <p>This article has two goals:</p>
 <ul>

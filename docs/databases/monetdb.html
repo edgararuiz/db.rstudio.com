@@ -170,7 +170,7 @@
   <a href="../r-packages/odbc.html" class="">odbc</a>
 </li>
           <li class="sidebar-item">
-  <a href="../.na.character" class="">DBI</a>
+  <a href="../r-packages/DBI.html" class="">DBI</a>
 </li>
           <li class="sidebar-item">
   <a href="../r-packages/dplyr.html" class="">dplyr</a>
@@ -358,11 +358,19 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
+<li><a href="#usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">MonetDB</h1>
 </header>
+
 <p>MonetDBLite for R is a SQL database that runs inside the R environment for statistical computing and does not require the installation of any external software. MonetDBLite is based on free and open-source <a href="https://www.monetdb.org/Home">MonetDB</a>, a product of the <a href="http://www.cwi.nl/">Centrum Wiskunde &amp; Informatica</a>.</p>
 <p>MonetDBLite is similar in functionality to RSQLite, but typically completes queries blazingly fast due to its columnar storage architecture and bulk query processing model. Since both of these embedded SQL options rely on the the R DBI interface, the conversion of legacy RSQLite project syntax over to MonetDBLite code should be a cinch.</p>
 <section id="installation" class="level2">

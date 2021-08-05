@@ -170,7 +170,7 @@
   <a href="../r-packages/odbc.html" class="">odbc</a>
 </li>
           <li class="sidebar-item">
-  <a href="../.na.character" class="">DBI</a>
+  <a href="../r-packages/DBI.html" class="">DBI</a>
 </li>
           <li class="sidebar-item">
   <a href="../r-packages/dplyr.html" class="">dplyr</a>
@@ -358,11 +358,29 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#vectors" class="nav-link active" data-scroll-target="#vectors">Vectors</a>
+<ul class="collapse">
+<li><a href="#known-functions" class="nav-link" data-scroll-target="#known-functions">Known functions</a></li>
+<li><a href="#unknown-functions" class="nav-link" data-scroll-target="#unknown-functions">Unknown functions</a></li>
+<li><a href="#window-functions" class="nav-link" data-scroll-target="#window-functions">Window functions</a></li>
+</ul></li>
+<li><a href="#whole-tables" class="nav-link" data-scroll-target="#whole-tables">Whole tables</a>
+<ul class="collapse">
+<li><a href="#single-table-verbs" class="nav-link" data-scroll-target="#single-table-verbs">Single table verbs</a></li>
+<li><a href="#dual-table-verbs" class="nav-link" data-scroll-target="#dual-table-verbs">Dual table verbs</a></li>
+<li><a href="#behind-the-scenes" class="nav-link" data-scroll-target="#behind-the-scenes">Behind the scenes</a></li>
+</ul></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">SQL translation</h1>
 </header>
+
 <p>There are two components to <code>dplyr</code>’s SQL translation system:</p>
 <ul>
 <li><p>translation of vector expressions like <code>x * y + 10</code></p></li>

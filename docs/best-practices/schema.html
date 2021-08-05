@@ -170,7 +170,7 @@
   <a href="../r-packages/odbc.html" class="">odbc</a>
 </li>
           <li class="sidebar-item">
-  <a href="../.na.character" class="">DBI</a>
+  <a href="../r-packages/DBI.html" class="">DBI</a>
 </li>
           <li class="sidebar-item">
   <a href="../r-packages/dplyr.html" class="">dplyr</a>
@@ -358,11 +358,27 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+<li><a href="#an-example" class="nav-link" data-scroll-target="#an-example">An example</a></li>
+<li><a href="#using-in_schema" class="nav-link" data-scroll-target="#using-in_schema">Using <code>in_schema()</code></a>
+<ul class="collapse">
+<li><a href="#ideal-use" class="nav-link" data-scroll-target="#ideal-use">Ideal use</a></li>
+</ul></li>
+<li><a href="#writing-data" class="nav-link" data-scroll-target="#writing-data">Writing data</a>
+<ul class="collapse">
+<li><a href="#write-non-temporary-tables" class="nav-link" data-scroll-target="#write-non-temporary-tables">Write non-temporary tables</a></li>
+</ul></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Schema selection</h1>
 </header>
+
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>It is common for enterprise databases to use multiple schemata to partition the data, it is either separated by business domain or some other context.</p>

@@ -170,7 +170,7 @@
   <a href="../r-packages/odbc.html" class="">odbc</a>
 </li>
           <li class="sidebar-item">
-  <a href="../.na.character" class="">DBI</a>
+  <a href="../r-packages/DBI.html" class="">DBI</a>
 </li>
           <li class="sidebar-item">
   <a href="../r-packages/dplyr.html" class="">dplyr</a>
@@ -358,11 +358,22 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#sql-injection-attack" class="nav-link active" data-scroll-target="#sql-injection-attack">SQL Injection Attack</a></li>
+<li><a href="#parameterized-queries" class="nav-link" data-scroll-target="#parameterized-queries">Parameterized queries</a></li>
+<li><a href="#using-glue_sql" class="nav-link" data-scroll-target="#using-glue_sql">Using <code>glue_sql()</code></a></li>
+<li><a href="#interpolation-by-hand" class="nav-link" data-scroll-target="#interpolation-by-hand">Interpolation by “hand”</a></li>
+<li><a href="#manual-escaping" class="nav-link" data-scroll-target="#manual-escaping">Manual escaping</a></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Run Queries Safely</h1>
 </header>
+
 <p>We will review four options to run SQL commands safely using the <a href="../dbi/">DBI</a> package:</p>
 <ul>
 <li><a href="#parameterized-queries">Parameterised queries</a></li>

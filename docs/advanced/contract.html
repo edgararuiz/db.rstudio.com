@@ -170,7 +170,7 @@
   <a href="../r-packages/odbc.html" class="">odbc</a>
 </li>
           <li class="sidebar-item">
-  <a href="../.na.character" class="">DBI</a>
+  <a href="../r-packages/DBI.html" class="">DBI</a>
 </li>
           <li class="sidebar-item">
   <a href="../r-packages/dplyr.html" class="">dplyr</a>
@@ -358,11 +358,26 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#connection-opened" class="nav-link active" data-scroll-target="#connection-opened">Connection Opened</a>
+<ul class="collapse">
+<li><a href="#arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
+<li><a href="#specifying-objects" class="nav-link" data-scroll-target="#specifying-objects">Specifying Objects</a></li>
+<li><a href="#persistence" class="nav-link" data-scroll-target="#persistence">Persistence</a></li>
+</ul></li>
+<li><a href="#connection-updated" class="nav-link" data-scroll-target="#connection-updated">Connection Updated</a></li>
+<li><a href="#connection-closed" class="nav-link" data-scroll-target="#connection-closed">Connection Closed</a></li>
+<li><a href="#examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Connections Contract</h1>
 </header>
+
 <p>The RStudio Connections Pane can display database-like connections from any R package which implements a connections contract.</p>
 <p>The Connections Pane acts like an observer; the R package notifies the observer when an event related to the connection occurs. In RStudio builds which support the Connections Pane, the <code>connectionObserver</code> option is populated with a list of three functions: <code>connectionOpened()</code>, <code>connectionUpdated()</code>, and <code>connectionClosed()</code>.</p>
 <section id="connection-opened" class="level2">

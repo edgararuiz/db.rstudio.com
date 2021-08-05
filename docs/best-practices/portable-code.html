@@ -170,7 +170,7 @@
   <a href="../r-packages/odbc.html" class="">odbc</a>
 </li>
           <li class="sidebar-item">
-  <a href="../.na.character" class="">DBI</a>
+  <a href="../r-packages/DBI.html" class="">DBI</a>
 </li>
           <li class="sidebar-item">
   <a href="../r-packages/dplyr.html" class="">dplyr</a>
@@ -358,11 +358,24 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#managing-connections-during-deployment" class="nav-link active" data-scroll-target="#managing-connections-during-deployment">Managing Connections During Deployment</a>
+<ul class="collapse">
+<li><a href="#deploying-with-dsns" class="nav-link" data-scroll-target="#deploying-with-dsns">Deploying with DSNs</a></li>
+<li><a href="#deploying-with-the-config-package" class="nav-link" data-scroll-target="#deploying-with-the-config-package">Deploying with the <code>config</code> Package</a></li>
+<li><a href="#deploying-with-the-config-package-and-credentials" class="nav-link" data-scroll-target="#deploying-with-the-config-package-and-credentials">Deploying with the <code>config</code> Package and Credentials</a></li>
+<li><a href="#deploying-with-different-dsns" class="nav-link" data-scroll-target="#deploying-with-different-dsns">Deploying with Different DSNs</a></li>
+</ul></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Making scripts portable</h1>
 </header>
+
 <p>When we share R scripts, RNotebooks or other kind of content with others, and want the code to also execute in their environment, then we need to take steps to make the code portable. There are two primary considerations when sharing content that contain database connections:</p>
 <ol type="1">
 <li>Ensuring the connection details for the development and deployment environments are in sync</li>

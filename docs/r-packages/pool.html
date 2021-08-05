@@ -358,11 +358,20 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#usage" class="nav-link active" data-scroll-target="#usage">Usage</a></li>
+<li><a href="#concept" class="nav-link" data-scroll-target="#concept">Concept</a></li>
+<li><a href="#context-and-motivation" class="nav-link" data-scroll-target="#context-and-motivation">Context and motivation</a></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Pooling database connections in R</h1>
 </header>
+
 <p>The goal of the <code>pool</code> package is to abstract away the logic of connection management and the performance cost of fetching a new connection from a remote database. These concerns are especially prominent in interactive contexts, like Shiny apps (which connect to a remote database) or even at the R console. So, while this package is of most practical value to Shiny developers, there is no harm if it is used in other contexts. Since <code>pool</code> integrates with both <code>DBI</code> and <code>dplyr</code>, there are very few things that will be new to you, if you’re already using either of those packages. Essentially, you shouldn’t feel the difference, with the exception of creating and closing a Pool object (as opposed to connecting and disconnecting a DBIConnection object).</p>
 <section id="usage" class="level2">
 <h2 class="anchored" data-anchor-id="usage">Usage</h2>

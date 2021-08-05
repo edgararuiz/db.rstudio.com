@@ -170,7 +170,7 @@
   <a href="../r-packages/odbc.html" class="">odbc</a>
 </li>
           <li class="sidebar-item">
-  <a href="../.na.character" class="">DBI</a>
+  <a href="../r-packages/DBI.html" class="">DBI</a>
 </li>
           <li class="sidebar-item">
   <a href="../r-packages/dplyr.html" class="">dplyr</a>
@@ -358,11 +358,41 @@
   </div>
 </nav>
   </div>
-  <div class="col mx-auto col-sm-12 col-md-11 col-lg-9 px-lg-4">
+  <div id="quarto-toc-sidebar" class="col col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-toc order-last"><nav id="TOC" role="doc-toc">
+<h2 id="toc-title">On this page</h2>
+<ul>
+<li><a href="#design-principles" class="nav-link active" data-scroll-target="#design-principles">Design principles</a></li>
+<li><a href="#example" class="nav-link" data-scroll-target="#example">Example</a></li>
+<li><a href="#use-shinydashboard" class="nav-link" data-scroll-target="#use-shinydashboard">Use <code>shinydashboard</code></a>
+<ul class="collapse">
+<li><a href="#quick-example" class="nav-link" data-scroll-target="#quick-example">Quick example</a></li>
+</ul></li>
+<li><a href="#connection-strings-and-credentials" class="nav-link" data-scroll-target="#connection-strings-and-credentials">Connection strings and credentials</a></li>
+<li><a href="#populate-shiny-inputs-using-purrr" class="nav-link" data-scroll-target="#populate-shiny-inputs-using-purrr">Populate Shiny inputs using <code>purrr</code></a>
+<ul class="collapse">
+<li><a href="#drop-down-populated-from-database" class="nav-link" data-scroll-target="#drop-down-populated-from-database">Drop down populated from database</a></li>
+<li><a href="#list-populated-from-a-vector" class="nav-link" data-scroll-target="#list-populated-from-a-vector">List populated from a vector</a></li>
+</ul></li>
+<li><a href="#create-a-base-query-using-dplyr" class="nav-link" data-scroll-target="#create-a-base-query-using-dplyr">Create a base query using <code>dplyr</code></a></li>
+<li><a href="#using-r2d3-for-interactivity-and-drill-down" class="nav-link" data-scroll-target="#using-r2d3-for-interactivity-and-drill-down">Using <code>r2d3</code> for interactivity and drill-down</a>
+<ul class="collapse">
+<li><a href="#two-ready-to-use-r2d3-plots" class="nav-link" data-scroll-target="#two-ready-to-use-r2d3-plots">Two ready-to-use <code>r2d3</code> plots</a></li>
+</ul></li>
+<li><a href="#handling-a-click-event-from-the-plot" class="nav-link" data-scroll-target="#handling-a-click-event-from-the-plot">Handling a click event from the plot</a></li>
+<li><a href="#create-the-drill-down-report" class="nav-link" data-scroll-target="#create-the-drill-down-report">Create the drill-down report</a>
+<ul class="collapse">
+<li><a href="#using-appendtab-to-create-the-drill-down-report" class="nav-link" data-scroll-target="#using-appendtab-to-create-the-drill-down-report">Using <code>appendTab()</code> to create the drill-down report</a></li>
+<li><a href="#remove-all-tabs-using-removetab-and-purrr" class="nav-link" data-scroll-target="#remove-all-tabs-using-removetab-and-purrr">Remove all tabs using <code>removeTab()</code> and <code>purrr</code></a></li>
+</ul></li>
+<li><a href="#full-example" class="nav-link" data-scroll-target="#full-example">Full example</a></li>
+</ul>
+</nav></div>
+  <div class="col mx-auto col-sm-12 col-md-9 col-lg-7 col-xl-7 px-lg-4 pe-xxl-4 ps-xxl-0">
 <main>
 <header id="title-block-header">
 <h1 class="title d-none d-lg-block display-7">Enterprise-ready dashboards</h1>
 </header>
+
 <p><img src="../best-practices/dashboards/main.png" class="img-fluid"></p>
 <section id="design-principles" class="level2">
 <h2 class="anchored" data-anchor-id="design-principles">Design principles</h2>
