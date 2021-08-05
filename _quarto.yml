@@ -112,4 +112,4 @@ format:
     code-copy: true
     theme:
       light: cosmo
-      dark: cosmo
+      dark: darkly
